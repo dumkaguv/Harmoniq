@@ -4,6 +4,7 @@ import {
   Sidebar,
   PlaylistsSlider,
   TopPlaylists,
+  TopTracks,
 } from "@/shared/components/shared";
 
 export default function Home() {
@@ -12,12 +13,15 @@ export default function Home() {
       <div className="flex">
         <Sidebar className="min-w-1/6" />
 
-        <div className="ml-15 pt-6 pb-8 w-[79%] overflow-x-hidden">
+        <div className="ml-15 w-[80%] overflow-x-hidden pt-6 pb-8">
           <Header />
 
           <PlaylistsSlider />
 
-          <TopPlaylists className="mt-8" />
+          <div className="mt-8 flex gap-10">
+            <TopPlaylists />
+            <TopTracks />
+          </div>
         </div>
       </div>
     </Container>

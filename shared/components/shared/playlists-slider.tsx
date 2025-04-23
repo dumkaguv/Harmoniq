@@ -3,10 +3,10 @@
 import React, { FC, useRef } from "react";
 import { cn, getShuffledArray } from "@/shared/lib/utils";
 import { useShallow } from "zustand/shallow";
-
+import * as PlaylistCard from "@/shared/components/shared/playlist-card";
 import { usePlaylistsStore } from "@/shared/store/playlists";
-import { PlaylistCard } from "@/shared/components/shared";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 interface Props {
   title?: string;
@@ -25,11 +25,19 @@ export const PlaylistsSlider: FC<Props> = ({
   const onSlideButtonClick = (direction: "left" | "right") => {
     if (sliderListRef.current) {
       sliderListRef.current.scrollBy({
-        left: direction === "left" ? -230 : 230,
+        left: direction === "left" ? -430 : 430,
         behavior: "smooth",
       });
     }
   };
+
+  const shuffledPlaylists = getShuffledArray(playlists).slice(0, 10);
+
+  const skeletons = new Array(10).fill(0).map((_, index) => (
+    <li key={index} className="flex flex-col">
+      <PlaylistCard.Skeleton />
+    </li>
+  ));
 
   return (
     <div className={cn("mt-10 text-4xl font-semibold", className)}>
@@ -69,21 +77,24 @@ export const PlaylistsSlider: FC<Props> = ({
       >
         {!isLoading &&
           playlists.length > 0 &&
-          getShuffledArray(playlists)
-            .slice(0, 10)
-            .map((playlist) => (
-              <li key={playlist.id}>
-                <PlaylistCard playlist={playlist} />
-              </li>
-            ))}
-        {isLoading &&
-          new Array(10).fill(0).map((_, index) => (
-            <li key={index} className="flex flex-col">
-              <div className="h-[200px] w-[190px] animate-pulse rounded-sm bg-gray-300" />
-              <div className="mt-3 h-[24px] w-[140px] animate-pulse rounded-sm bg-gray-300" />
-              <div className="mt-1 h-[20px] w-[80px] animate-pulse rounded-sm bg-gray-300" />
+          shuffledPlaylists.map((playlist) => (
+            <li key={playlist.id}>
+              <Link
+                href="/"
+                className={cn(
+                  "flex w-[190px] flex-col gap-3 hover:scale-[1.025] hover:text-black",
+                  className,
+                )}
+              >
+                <PlaylistCard.Image imageSrc={playlist.artwork["480x480"]} />
+                <div>
+                  <PlaylistCard.Title title={playlist.playlist_name} />
+                  <PlaylistCard.Author author={playlist.user.name} />
+                </div>
+              </Link>
             </li>
           ))}
+        {isLoading && skeletons}
       </ul>
     </div>
   );

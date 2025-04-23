@@ -73,3 +73,30 @@ export interface CoverPhoto {
   "640x": string;
   "2000x": string;
 }
+
+export interface Track {
+  artwork: Artwork;
+  description: string;
+  genre: string;
+  id: string;
+  track_cid: string;
+  mood: string;
+  release_date: string;
+  remix_of: RemixOf;
+  repost_count: number;
+  favorite_count: number;
+  tags: string;
+  title: string;
+  user: User;
+  duration: number;
+  downloadable: boolean;
+  play_count: number;
+  permalink: string;
+  is_streamable: boolean;
+}
+
+export interface RemixOf {
+  tracks: null;
+}
+
+export type QueryParamsTrackTime = "week" | "month" | "year" | "allTime";
