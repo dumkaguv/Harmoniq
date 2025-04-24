@@ -6,10 +6,13 @@ import {
   TopPlaylists,
   TopTracks,
 } from "@/shared/components/shared";
+import { Playbar } from "@/shared/components/shared/playbar/components";
 
 export default function Home() {
   return (
     <Container>
+      <Playbar />
+
       <div className="flex">
         <Sidebar className="min-w-1/6" />
 

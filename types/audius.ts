@@ -36,7 +36,7 @@ export interface PlaylistContent {
 
 export interface User {
   album_count: number;
-  artist_pick_track_id: string;
+  artist_pick_track_id: string | null;
   bio: string;
   cover_photo: CoverPhoto;
   followee_count: number;
@@ -51,7 +51,7 @@ export interface User {
   verified_with_instagram: boolean;
   verified_with_tiktok: boolean;
   website: string;
-  donation: string;
+  donation: string | null;
   location: string;
   name: string;
   playlist_count: number;
@@ -89,7 +89,7 @@ export interface Track {
   title: string;
   user: User;
   duration: number;
-  downloadable: boolean;
+  downloadable?: boolean;
   play_count: number;
   permalink: string;
   is_streamable: boolean;

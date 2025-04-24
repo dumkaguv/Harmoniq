@@ -1,0 +1,91 @@
+"use client";
+
+import React, { FC, useEffect, useRef, useState } from "react";
+import { cn } from "@/shared/lib/utils";
+import { calculateProgressPercentage } from "../utils";
+
+interface Props {
+  audioRef: React.RefObject<HTMLAudioElement | null>;
+  trackDuration: number;
+  currentTime: number;
+  className?: string;
+}
+
+export const PlaybarProgressBar: FC<Props> = ({
+  audioRef,
+  trackDuration,
+  currentTime,
+  className,
+}) => {
+  const barRef = useRef<HTMLDivElement | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const updateTime = (clientX: number) => {
+    const rect = barRef.current?.getBoundingClientRect();
+    if (!rect || !audioRef.current) return;
+
+    const clickX = clientX - rect.left;
+    const newTime = Math.min(
+      Math.max((clickX / rect.width) * trackDuration, 0),
+      trackDuration,
+    );
+
+    audioRef.current.currentTime = newTime;
+  };
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    updateTime(e.clientX);
+  };
+
+  useEffect(() => {
+    const onMouseMove = (e: MouseEvent) => {
+      if (isDragging) {
+        updateTime(e.clientX);
+      }
+    };
+
+    const onMouseUp = () => {
+      if (isDragging) {
+        setIsDragging(false);
+      }
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+  }, [isDragging]);
+
+  return (
+    <div
+      ref={barRef}
+      onMouseDown={onMouseDown}
+      className={cn("flex h-7 cursor-pointer items-center", className)}
+      aria-hidden
+    >
+      <div
+        aria-label="Seek"
+        className="relative h-0.5 w-[500px] rounded-4xl bg-gray-300"
+      >
+        <div
+          className="bg-accent absolute h-0.5 rounded-4xl"
+          style={{
+            width: `${calculateProgressPercentage(currentTime, trackDuration)}%`,
+          }}
+        />
+
+        <div
+          className="absolute top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-gray-200 bg-white shadow-lg"
+          style={{
+            left: `${calculateProgressPercentage(currentTime, trackDuration)}%`,
+          }}
+          title="Seek"
+        />
+      </div>
+    </div>
+  );
+};

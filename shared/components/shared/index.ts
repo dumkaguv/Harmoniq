@@ -6,3 +6,4 @@ export { TopTracks } from "./top-tracks";
 
 export * from "./sidebar";
 export * from "./playlist-card";
+export * from "./playbar";

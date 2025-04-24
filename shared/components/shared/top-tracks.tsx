@@ -30,7 +30,7 @@ export const TopTracks: FC<Props> = ({ className }) => {
   }, []);
 
   const skeletons = new Array(7).fill(0).map((_, index) => (
-    <tr key={index} className="not-last:border-b border-gray-200">
+    <tr key={index} className="border-gray-200 not-last:border-b">
       <td className="py-[7.5px] pr-4">
         <div className="h-6 w-6 animate-pulse rounded-sm bg-gray-300" />
       </td>
@@ -49,7 +49,7 @@ export const TopTracks: FC<Props> = ({ className }) => {
         Top Of The Week Hits
       </h3>
       <table className="mt-4 w-full">
-        <thead className="border-y-[1px] border-gray-200 text-left uppercase text-sm">
+        <thead className="border-y-[1px] border-gray-200 text-left text-sm uppercase">
           <tr className="tracking-widest text-stone-400">
             <th className="py-1">№</th>
             <th>Title</th>
@@ -64,11 +64,21 @@ export const TopTracks: FC<Props> = ({ className }) => {
                 key={track.id}
                 className="border-gray-200 font-semibold not-last:border-b-[1px]"
               >
-                <td className="py-[7.5px] pr-4 text-neutral-500">
+                <td
+                  className="hover:text-accent cursor-pointer py-[7.5px] pr-4 text-neutral-500 duration-200"
+                  title="Play track"
+                >
                   {index + 1}
                 </td>
-                <td className="max-w-[250px] truncate pr-12">{track.title}</td>
-                <td>{track.user.name}</td>
+                <td
+                  className="hover:text-accent max-w-[250px] cursor-pointer truncate pr-12 duration-200"
+                  title="Play track"
+                >
+                  {track.title}
+                </td>
+                <td className="hover:text-accent cursor-pointer duration-200">
+                  {track.user.name}
+                </td>
               </tr>
             ))}
           {isLoading && skeletons}
