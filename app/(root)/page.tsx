@@ -5,8 +5,8 @@ import {
   PlaylistsSlider,
   TopPlaylists,
   TopTracks,
+  Playbar,
 } from "@/shared/components/shared";
-import { Playbar } from "@/shared/components/shared/playbar/components";
 
 export default function Home() {
   return (

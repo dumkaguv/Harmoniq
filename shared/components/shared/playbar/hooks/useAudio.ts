@@ -1,14 +1,21 @@
-import { Track } from "@/types/audius";
+import { useEffect } from "react";
+import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
+import { useShallow } from "zustand/shallow";
 import { useAudioSrc } from "./useAudioSrc";
-import { useEffect, useState } from "react";
 
 export const useAudio = (
-  track: Track,
   audioRef: React.RefObject<HTMLAudioElement | null>,
 ) => {
-  const { audioSrc, isLoading } = useAudioSrc(track);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [trackDuration, setTrackDuration] = useState(0);
+  const [track, audioSrc, setCurrentTime, setTrackDuration] =
+    useCurrentPlayingTrack(
+      useShallow((state) => [
+        state.track,
+        state.audioSrc,
+        state.setCurrentTime,
+        state.setTrackDuration,
+      ]),
+    );
+  useAudioSrc(track);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -31,14 +38,5 @@ export const useAudio = (
       audio.removeEventListener("timeupdate", handleTimeUpdate);
       audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
     };
-  }, [audioSrc, audioRef]);
-
-  return {
-    audioSrc,
-    currentTime,
-    trackDuration,
-    isLoading,
-    setTrackDuration,
-    setCurrentTime,
-  };
+  }, [track, audioSrc, audioRef, setCurrentTime, setTrackDuration]);
 };

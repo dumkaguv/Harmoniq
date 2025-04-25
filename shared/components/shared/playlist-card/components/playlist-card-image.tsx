@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { cn } from "@/shared/lib/utils";
 
 interface Props {
-  imageSrc: string;
+  imageSrc?: string;
   alt?: string;
   width?: number;
   height?: number;

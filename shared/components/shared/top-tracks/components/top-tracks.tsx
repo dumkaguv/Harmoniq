@@ -1,47 +1,28 @@
 "use client";
 
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { cn } from "@/shared/lib/utils";
-import { Track } from "@/types/audius";
-import { Api } from "@/shared/services/api-client";
+import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
+import { useAutoPlay, useTopTracks } from "../hooks";
+import { TopTrackSkeleton } from "./top-track-skeleton";
+import { useShallow } from "zustand/shallow";
+import { Volume2 } from "lucide-react";
 
 interface Props {
   className?: string;
 }
 
 export const TopTracks: FC<Props> = ({ className }) => {
-  const [tracks, setTracks] = useState<Track[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { tracks, isLoading } = useTopTracks();
+  const [playingTrack, setTrack] = useCurrentPlayingTrack(
+    useShallow((state) => [state.track, state.setTrack]),
+  );
 
-  useEffect(() => {
-    const fetchTracks = async () => {
-      try {
-        setIsLoading(true);
-        const data = await Api.tracks.fetchTracks("trending", "time=week");
-        setTracks(data);
-      } catch (e) {
-        console.log("front fetchTracks error", e);
-        setIsLoading(false);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchTracks();
-  }, []);
+  const skeletons = new Array(7)
+    .fill(0)
+    .map((_, index) => <TopTrackSkeleton key={index} />);
 
-  const skeletons = new Array(7).fill(0).map((_, index) => (
-    <tr key={index} className="border-gray-200 not-last:border-b">
-      <td className="py-[7.5px] pr-4">
-        <div className="h-6 w-6 animate-pulse rounded-sm bg-gray-300" />
-      </td>
-      <td className="pr-4">
-        <div className="h-6 w-[330px] animate-pulse rounded-sm bg-gray-300" />
-      </td>
-      <td>
-        <div className="h-6 w-[120px] animate-pulse rounded-sm bg-gray-300" />
-      </td>
-    </tr>
-  ));
+  useAutoPlay();
 
   return (
     <div className={cn("flex-1", className)}>
@@ -62,15 +43,24 @@ export const TopTracks: FC<Props> = ({ className }) => {
             tracks.slice(0, 7).map((track, index) => (
               <tr
                 key={track.id}
-                className="border-gray-200 font-semibold not-last:border-b-[1px]"
+                className={cn(
+                  "border-gray-200 font-semibold not-last:border-b-[1px]",
+                  { "text-accent": playingTrack?.id === track.id },
+                )}
               >
                 <td
+                  onClick={() => setTrack(track)}
                   className="hover:text-accent cursor-pointer py-[7.5px] pr-4 text-neutral-500 duration-200"
                   title="Play track"
                 >
-                  {index + 1}
+                  {playingTrack?.id === track.id ? (
+                    <Volume2 className="text-accent" size={24} />
+                  ) : (
+                    index + 1
+                  )}
                 </td>
                 <td
+                  onClick={() => setTrack(track)}
                   className="hover:text-accent max-w-[250px] cursor-pointer truncate pr-12 duration-200"
                   title="Play track"
                 >

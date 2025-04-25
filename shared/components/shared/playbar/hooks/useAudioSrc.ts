@@ -1,30 +1,13 @@
-import { Api } from "@/shared/services/api-client";
+import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
 import { Track } from "@/types/audius";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-export const useAudioSrc = (track: Track) => {
-  const [audioSrc, setAudioSrc] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+export const useAudioSrc = (track: Track | null) => {
+  const setAudioSrc = useCurrentPlayingTrack((state) => state.setAudioSrc);
 
   useEffect(() => {
-    const getAudioSrc = async () => {
-      try {
-        setIsLoading(true);
-        const audioSrc = await Api.tracks.getTrackAudioSrc(track.id);
-        setAudioSrc(audioSrc);
-      } catch (e) {
-        console.log("front getAudioSrc error", e);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    getAudioSrc();
-  }, []);
-
-  return {
-    audioSrc,
-    setAudioSrc,
-    isLoading,
-  };
+    if (track) {
+      setAudioSrc(track);
+    }
+  }, [track, setAudioSrc]);
 };
