@@ -11,7 +11,7 @@ interface Props {
 
 export const Sidebar: FC<Props> = ({ className }) => {
   return (
-    <aside className={cn("bg-gray-custom overflow-y-auto max-h-screen", className)}>
+    <aside className={cn("bg-gray-custom overflow-y-auto max-h-screen sticky top-0", className)}>
       <div className="pt-6">
         <Link
           className="before:bg-accent relative flex items-center gap-2 pl-6 font-semibold before:absolute before:inset-0 before:h-full before:w-2 before:rounded-r-sm"

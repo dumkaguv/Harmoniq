@@ -1,2 +1,3 @@
-export { useAudioSrc } from "./useAudioSrc";
-export { useAudio } from "./useAudio";
+export { useAudioSrc } from "./use-audio-src";
+export { useAudio } from "./use-audio";
+export { useAutoPlay } from "./use-auto-play";

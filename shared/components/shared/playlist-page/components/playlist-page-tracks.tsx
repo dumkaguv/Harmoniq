@@ -3,12 +3,13 @@
 import React, { FC, Fragment } from "react";
 import { cn, formatTime } from "@/shared/lib/utils";
 import { Playlist } from "@/types/audius";
-import { Heart, Volume2 } from "lucide-react";
+import { Volume2 } from "lucide-react";
 import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
 import { usePlaylistPageTracks } from "../hooks";
 import { PlaylistPageTrackSkeleton } from "./";
 import { useShallow } from "zustand/shallow";
 import Link from "next/link";
+import { ButtonLikeTrack } from "@/shared/components/shared";
 
 interface Props {
   playlist: Playlist;
@@ -28,14 +29,13 @@ export const PlaylistPageTracks: FC<Props> = ({ playlist, className }) => {
   return (
     <div
       className={cn(
-        "mt-10 grid grid-cols-[auto_max-content_max-content_1fr_auto_auto_auto] gap-6",
+        "mt-10 grid grid-cols-[auto_max-content_1fr__auto_auto_auto] items-center gap-6",
         className,
       )}
     >
       <div className="font-bold text-gray-700">#</div>
       <div className="font-bold text-gray-700">Title</div>
       <div className="font-bold text-gray-700">Genre</div>
-      <div className="font-bold text-gray-700">Author</div>
       <div className="font-bold text-gray-700">Like</div>
       <div className="flex items-center gap-2 font-bold text-gray-700">
         Play count
@@ -61,21 +61,28 @@ export const PlaylistPageTracks: FC<Props> = ({ playlist, className }) => {
             </div>
             <div
               onClick={() => setTrack(track)}
-              title="Play Track"
-              className={`hover:text-accent cursor-pointer transition duration-200 ${playingTrack?.id === track.id && "text-accent"}`}
+              className="flex cursor-pointer flex-col gap-1"
             >
-              {track.title}
+              <span
+                className={`hover:text-accent transition-colors duration-200 ${playingTrack?.id === track.id && "text-accent"}`}
+                title="Play Track"
+              >
+                {track.title}
+              </span>
+              <Link
+                href=""
+                className="hover:text-accent text-gray-500 transition-colors duration-200"
+              >
+                {track.user.name}
+              </Link>
             </div>
-            <div className="text-gray-500">{track.genre}</div>
-            <Link
-              href=""
-              className="hover:text-accent w-fit cursor-pointer text-gray-500 transition duration-200"
+            <div
+              onClick={() => setTrack(track)}
+              className="cursor-pointer text-gray-500"
             >
-              {track.user.name}
-            </Link>
-            <div className="hover:text-accent cursor-pointer transition-colors duration-200">
-              <Heart size={24} />
+              {track.genre}
             </div>
+            <ButtonLikeTrack track={track} />
             <div>{track.play_count}</div>
             <div className="text-gray-500">{formatTime(track.duration)}</div>
           </Fragment>

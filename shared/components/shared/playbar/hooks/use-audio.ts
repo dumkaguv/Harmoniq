@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
 import { useShallow } from "zustand/shallow";
-import { useAudioSrc } from "./useAudioSrc";
+import { useAudioSrc } from "./";
 
 export const useAudio = (
   audioRef: React.RefObject<HTMLAudioElement | null>,

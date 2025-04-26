@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ChangeEvent, FC, RefObject, useEffect } from "react";
 import { cn } from "@/shared/lib/utils";
 import { Volume1, Volume2, VolumeOff } from "lucide-react";

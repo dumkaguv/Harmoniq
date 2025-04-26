@@ -1,21 +1,20 @@
 "use client";
 
-import React, { FC, useRef } from "react";
-import { cn } from "@/shared/lib/utils";
+import React, { FC, useEffect, useRef } from "react";
 import * as PlaylistCard from "@/shared/components/shared/playlist-card";
-import { Heart, Shuffle, SkipBack, SkipForward } from "lucide-react";
+import { Shuffle, SkipBack, SkipForward } from "lucide-react";
 import Link from "next/link";
-import { PlaybarButtonPlayPause } from "../playbar-buttons/components/playbar-button-play-pause";
-import { formatTime } from "@/shared/lib/utils";
-import { useAudio } from "../hooks";
-import { PlaybarProgressBar } from "./playbar-progress-bar";
-import {
-  PlaybarButtonRepeat,
-  PlaybarButtonVolume,
-} from "../playbar-buttons/components";
+import { cn, formatTime } from "@/shared/lib/utils";
+import { useAudio, useAutoPlay } from "../hooks";
 import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
 import { useShallow } from "zustand/shallow";
-import { useAutoPlay } from "../../top-tracks/hooks";
+import {
+  ButtonLikeTrack,
+  PlaybarButtonRepeat,
+  PlaybarButtonVolume,
+  PlaybarProgressBar,
+  PlaybarButtonPlayPause,
+} from "@/shared/components/shared";
 
 interface Props {
   className?: string;
@@ -23,6 +22,7 @@ interface Props {
 
 export const Playbar: FC<Props> = ({ className }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const playbarRef = useRef<HTMLDivElement>(null);
   const [track, audioSrc, trackDuration, currentTime, isLoading] =
     useCurrentPlayingTrack(
       useShallow((state) => [
@@ -33,10 +33,23 @@ export const Playbar: FC<Props> = ({ className }) => {
         state.isLoading,
       ]),
     );
-
   useAudio(audioRef);
 
   useAutoPlay();
+
+  useEffect(() => {
+    const definePlaybarHeightVariable = () => {
+      if (playbarRef.current) {
+        const playbarHeight = playbarRef.current.offsetHeight;
+        document.documentElement.style.setProperty(
+          "--playbar-height",
+          `${playbarHeight}px`,
+        );
+      }
+    };
+
+    definePlaybarHeightVariable();
+  }, [track]);
 
   const MUSIC_CONTROLS = [
     {
@@ -61,6 +74,7 @@ export const Playbar: FC<Props> = ({ className }) => {
             "fixed bottom-0 left-0 z-100 flex h-[70px] w-full items-center justify-center bg-[#F5F4F7]",
             className,
           )}
+          ref={playbarRef}
         >
           {audioSrc && (
             <audio ref={audioRef} preload="metadata" src={audioSrc} />
@@ -92,27 +106,20 @@ export const Playbar: FC<Props> = ({ className }) => {
 
             <div className="flex items-center gap-5">
               <PlaybarButtonVolume audioRef={audioRef} />
-              <button
-                className="hover:text-accent transition-colors"
-                type="button"
-                title="Like"
-                aria-label="Like"
-              >
-                <Heart size={24} />
-              </button>
+              <ButtonLikeTrack track={track} />
             </div>
 
             <Link href="/" className="ml-3 flex items-center gap-2">
               <PlaylistCard.Image
-                imageSrc={track?.user.cover_photo["640x"]}
-                width={50}
-                height={50}
-                className="shadow-lg"
+                imageSrc={track?.user?.cover_photo?.["640x"]}
+                width={45}
+                height={40}
+                className="h-[40px] w-[45px] shadow-lg"
               />
-              <div className="max-w-[170px]">
-                <PlaylistCard.Title title={""} />
-                <PlaylistCard.Author author={track.user.name} />
-              </div>
+              <PlaylistCard.Author
+                className="hover:text-accent max-w-[170px] transition-colors duration-200"
+                author={track.user.name}
+              />
             </Link>
           </div>
         </div>

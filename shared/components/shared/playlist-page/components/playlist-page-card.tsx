@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { AudioLines, ExternalLink, Heart, Play } from "lucide-react";
+import { AudioLines, Heart, Play } from "lucide-react";
 import * as PlaylistCard from "@/shared/components/shared/playlist-card";
 import Link from "next/link";
 import { Playlist } from "@/types/audius";
@@ -10,7 +10,6 @@ interface Props {
   className?: string;
 }
 
-
 export const PlaylistPageCard: FC<Props> = ({ playlist, className }) => {
   return (
     <div className={cn("flex gap-5", className)}>
@@ -18,7 +17,7 @@ export const PlaylistPageCard: FC<Props> = ({ playlist, className }) => {
         imageSrc={playlist.artwork["1000x1000"]}
         width={350}
         height={350}
-        className={cn("w-[350px] h-[350px]",)}
+        className={cn("h-[350px] w-[350px]")}
         alt={playlist.playlist_name}
       />
       <div className="flex flex-col gap-3">
@@ -30,7 +29,6 @@ export const PlaylistPageCard: FC<Props> = ({ playlist, className }) => {
           <PlaylistCard.Author
             author={playlist.user.name || "Error"}
             className="hover:text-accent flex gap-2 text-lg transition-colors duration-200"
-            endAdornment={<ExternalLink size={12} />}
           />
         </Link>
         {playlist.description && (

@@ -6,7 +6,7 @@ import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
 import { useTopTracks } from "../hooks";
 import { TopTrackSkeleton } from "./top-track-skeleton";
 import { useShallow } from "zustand/shallow";
-import { ExternalLink, Volume2 } from "lucide-react";
+import { Volume2 } from "lucide-react";
 import Link from "next/link";
 
 interface Props {
@@ -22,7 +22,6 @@ export const TopTracks: FC<Props> = ({ className }) => {
   const skeletons = new Array(7)
     .fill(0)
     .map((_, index) => <TopTrackSkeleton key={index} />);
-
 
   return (
     <div className={cn("flex-1", className)}>
@@ -45,7 +44,6 @@ export const TopTracks: FC<Props> = ({ className }) => {
                 key={track.id}
                 className={cn(
                   "border-gray-200 font-semibold not-last:border-b-[1px]",
-                  { "text-accent": playingTrack?.id === track.id },
                 )}
               >
                 <td
@@ -61,7 +59,7 @@ export const TopTracks: FC<Props> = ({ className }) => {
                 </td>
                 <td
                   onClick={() => setTrack(track)}
-                  className="hover:text-accent max-w-[250px] cursor-pointer truncate pr-12 duration-200"
+                  className={`hover:text-accent max-w-[250px] cursor-pointer truncate pr-12 duration-200 ${playingTrack?.id === track.id && "text-accent"}`}
                   title="Play track"
                 >
                   {track.title}
@@ -69,7 +67,6 @@ export const TopTracks: FC<Props> = ({ className }) => {
                 <td className="hover:text-accent cursor-pointer duration-200">
                   <Link href="/" className="flex gap-2">
                     {track.user.name}
-                    <ExternalLink size={14} />
                   </Link>
                 </td>
               </tr>
