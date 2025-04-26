@@ -3,10 +3,11 @@
 import React, { FC } from "react";
 import { cn } from "@/shared/lib/utils";
 import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
-import { useAutoPlay, useTopTracks } from "../hooks";
+import { useTopTracks } from "../hooks";
 import { TopTrackSkeleton } from "./top-track-skeleton";
 import { useShallow } from "zustand/shallow";
-import { Volume2 } from "lucide-react";
+import { ExternalLink, Volume2 } from "lucide-react";
+import Link from "next/link";
 
 interface Props {
   className?: string;
@@ -22,7 +23,6 @@ export const TopTracks: FC<Props> = ({ className }) => {
     .fill(0)
     .map((_, index) => <TopTrackSkeleton key={index} />);
 
-  useAutoPlay();
 
   return (
     <div className={cn("flex-1", className)}>
@@ -67,7 +67,10 @@ export const TopTracks: FC<Props> = ({ className }) => {
                   {track.title}
                 </td>
                 <td className="hover:text-accent cursor-pointer duration-200">
-                  {track.user.name}
+                  <Link href="/" className="flex gap-2">
+                    {track.user.name}
+                    <ExternalLink size={14} />
+                  </Link>
                 </td>
               </tr>
             ))}

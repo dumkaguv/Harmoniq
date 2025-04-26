@@ -47,16 +47,22 @@ export const TopPlaylists: FC<Props> = ({ className }) => {
               key={playlist.id}
               className="p-0.5 duration-200 hover:scale-[1.02]"
             >
-              <Link href="/" className="flex items-center gap-2">
+              <Link href={`/playlist/${playlist.id}`} className="flex items-center gap-2">
                 <PlaylistCard.Image
-                  imageSrc={playlist.artwork["480x480"]}
+                  imageSrc={playlist.artwork["150x150"]}
                   width={56}
                   height={56}
                   className="shadow-lg"
                 />
                 <div className="max-w-[170px]">
-                  <PlaylistCard.Title title={playlist.playlist_name} />
-                  <PlaylistCard.Author author={playlist.user.name} />
+                  <PlaylistCard.Title
+                    title={playlist.playlist_name}
+                    className="truncate"
+                  />
+                  <PlaylistCard.Author
+                    author={playlist.user.name}
+                    className="truncate"
+                  />
                 </div>
               </Link>
             </li>

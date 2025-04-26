@@ -64,7 +64,7 @@ input[type="range"]::-webkit-slider-thumb {
   height: 14.5px;
   width: 14.5px;
   background: white;
-  border: 1px solid oklch(87.8% .006 264.531);
+  border: 1px solid oklch(87.8% 0.006 264.531);
   border-radius: 50%;
   margin-top: -5px;
   z-index: 10;
@@ -81,6 +81,18 @@ input[type="range"]::-moz-range-thumb {
   height: 14.5px;
   width: 14.5px;
   background: white;
-  border: 1px solid oklch(87.8% .006 264.531);
+  border: 1px solid oklch(87.8% 0.006 264.531);
   border-radius: 50%;
+}
+
+#nprogress .bar {
+  @apply !bg-accent;
+}
+
+#nprogress .peg {
+  @apply !shadow-accent !shadow-md;
+}
+
+#nprogress .spinner-icon {
+  @apply !border-t-accent !border-l-accent;
 }

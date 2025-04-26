@@ -80,7 +80,7 @@ export const PlaylistsSlider: FC<Props> = ({
           shuffledPlaylists.map((playlist) => (
             <li key={playlist.id}>
               <Link
-                href="/"
+                href={`/playlist/${playlist.id}`}
                 className={cn(
                   "flex w-[190px] flex-col gap-3 hover:scale-[1.025] hover:text-black",
                   className,
@@ -88,8 +88,14 @@ export const PlaylistsSlider: FC<Props> = ({
               >
                 <PlaylistCard.Image imageSrc={playlist.artwork["480x480"]} />
                 <div>
-                  <PlaylistCard.Title title={playlist.playlist_name} />
-                  <PlaylistCard.Author author={playlist.user.name} />
+                  <PlaylistCard.Title
+                    title={playlist.playlist_name}
+                    className="truncate"
+                  />
+                  <PlaylistCard.Author
+                    author={playlist.user.name}
+                    className="truncate"
+                  />
                 </div>
               </Link>
             </li>

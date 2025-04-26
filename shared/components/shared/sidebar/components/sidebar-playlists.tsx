@@ -33,7 +33,10 @@ export const SidebarPlaylists: FC<Props> = ({ className }) => {
               ))
           : playlists.map((playlist) => (
               <li key={playlist.id}>
-                <Link href="/" className="flex hover:text-accent text-neutral-600">
+                <Link
+                  href={`/playlist/${playlist.id}`}
+                  className="hover:text-accent flex text-neutral-600"
+                >
                   {playlist.playlist_name}
                 </Link>
               </li>

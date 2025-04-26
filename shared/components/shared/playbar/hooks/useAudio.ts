@@ -6,15 +6,17 @@ import { useAudioSrc } from "./useAudioSrc";
 export const useAudio = (
   audioRef: React.RefObject<HTMLAudioElement | null>,
 ) => {
-  const [track, audioSrc, setCurrentTime, setTrackDuration] =
+  const [track, audioSrc, setCurrentTime, setTrackDuration, setAudioRef] =
     useCurrentPlayingTrack(
       useShallow((state) => [
         state.track,
         state.audioSrc,
         state.setCurrentTime,
         state.setTrackDuration,
+        state.setAudioRef,
       ]),
     );
+
   useAudioSrc(track);
 
   useEffect(() => {
@@ -39,4 +41,8 @@ export const useAudio = (
       audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
     };
   }, [track, audioSrc, audioRef, setCurrentTime, setTrackDuration]);
+
+  useEffect(() => {
+    setAudioRef(audioRef);
+  }, [audioRef, setAudioRef]);
 };

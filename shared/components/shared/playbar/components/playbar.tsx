@@ -1,12 +1,12 @@
 "use client";
 
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, useRef } from "react";
 import { cn } from "@/shared/lib/utils";
 import * as PlaylistCard from "@/shared/components/shared/playlist-card";
 import { Heart, Shuffle, SkipBack, SkipForward } from "lucide-react";
 import Link from "next/link";
 import { PlaybarButtonPlayPause } from "../playbar-buttons/components/playbar-button-play-pause";
-import { formatTime } from "../utils";
+import { formatTime } from "@/shared/lib/utils";
 import { useAudio } from "../hooks";
 import { PlaybarProgressBar } from "./playbar-progress-bar";
 import {
@@ -15,6 +15,7 @@ import {
 } from "../playbar-buttons/components";
 import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
 import { useShallow } from "zustand/shallow";
+import { useAutoPlay } from "../../top-tracks/hooks";
 
 interface Props {
   className?: string;
@@ -22,7 +23,7 @@ interface Props {
 
 export const Playbar: FC<Props> = ({ className }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [track, audioSrc, trackDuration, currentTime, isLoading, setAudioRef] =
+  const [track, audioSrc, trackDuration, currentTime, isLoading] =
     useCurrentPlayingTrack(
       useShallow((state) => [
         state.track,
@@ -30,15 +31,12 @@ export const Playbar: FC<Props> = ({ className }) => {
         state.trackDuration,
         state.currentTime,
         state.isLoading,
-        state.setAudioRef,
       ]),
     );
 
   useAudio(audioRef);
 
-  useEffect(() => {
-    setAudioRef(audioRef);
-  }, [audioRef, setAudioRef]);
+  useAutoPlay();
 
   const MUSIC_CONTROLS = [
     {
@@ -113,7 +111,7 @@ export const Playbar: FC<Props> = ({ className }) => {
               />
               <div className="max-w-[170px]">
                 <PlaylistCard.Title title={""} />
-                <PlaylistCard.Author author={""} />
+                <PlaylistCard.Author author={track.user.name} />
               </div>
             </Link>
           </div>

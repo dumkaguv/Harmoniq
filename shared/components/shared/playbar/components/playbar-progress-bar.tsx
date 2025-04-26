@@ -2,7 +2,7 @@
 
 import React, { FC, useEffect, useRef, useState } from "react";
 import { cn } from "@/shared/lib/utils";
-import { calculateProgressPercentage } from "../utils";
+import { calculateProgressPercentage } from "@/shared/lib/utils";
 
 interface Props {
   audioRef: React.RefObject<HTMLAudioElement | null>;

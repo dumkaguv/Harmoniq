@@ -8,7 +8,7 @@ interface Props {
 
 export const PlaylistCardTitle: FC<Props> = ({ title, className }) => {
   return (
-    <h3 className={cn("truncate text-base text-gray-600", className)}>
+    <h3 className={cn("text-base text-gray-600", className)}>
       {title}
     </h3>
   );
