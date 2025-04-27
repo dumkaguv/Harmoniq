@@ -3,9 +3,9 @@ import { ApiRoutes } from "./constants";
 import { axiosInstance } from "./instance";
 import axios from "axios";
 
-export const fetchPlaylists = async (query: string) => {
+export const fetchPlaylists = async (query: string, params?: string) => {
   const { data } = await axiosInstance.get<Playlist[]>(
-    `${ApiRoutes.PLAYLISTS}/${query}`,
+    `${ApiRoutes.PLAYLISTS}/${query}${params ? `?${params}` : ""}`,
   );
 
   return data;

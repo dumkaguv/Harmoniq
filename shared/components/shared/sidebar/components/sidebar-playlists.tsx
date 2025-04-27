@@ -18,7 +18,7 @@ export const SidebarPlaylists: FC<Props> = ({ className }) => {
   );
 
   useEffect(() => {
-    fetchPlaylists("trending");
+    fetchPlaylists("trending", "time=week");
   }, [fetchPlaylists]);
 
   return (

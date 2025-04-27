@@ -109,18 +109,21 @@ export const Playbar: FC<Props> = ({ className }) => {
               <ButtonLikeTrack track={track} />
             </div>
 
-            <Link href="/" className="ml-3 flex items-center gap-2">
-              <PlaylistCard.Image
-                imageSrc={track?.user?.cover_photo?.["640x"]}
-                width={45}
-                height={40}
-                className="h-[40px] w-[45px] shadow-lg"
-              />
-              <PlaylistCard.Author
-                className="hover:text-accent max-w-[170px] transition-colors duration-200"
-                author={track.user.name}
-              />
-            </Link>
+            <PlaylistCard.Image
+              imageSrc={track.artwork["150x150"]}
+              width={45}
+              height={40}
+              className="h-[40px] w-[45px] shadow-lg"
+            />
+            <div>
+              <PlaylistCard.Title className="text-accent" title={track.title} />
+              <Link href="/">
+                <PlaylistCard.Author
+                  className="hover:text-accent max-w-[170px] transition-colors duration-200"
+                  author={track.user.name}
+                />
+              </Link>
+            </div>
           </div>
         </div>
       )}

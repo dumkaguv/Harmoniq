@@ -13,11 +13,7 @@ interface Props {
   className?: string;
 }
 
-export const ButtonLikeTrack: FC<Props> = ({
-  track,
-  size = 24,
-  className,
-}) => {
+export const ButtonLikeTrack: FC<Props> = ({ track, size = 24, className }) => {
   const [likedTracksIdsSet, likeTrack, unlikeTrack] = useLikedTracksStore(
     useShallow((state) => [
       state.likedTracksIdsSet,
@@ -28,15 +24,16 @@ export const ButtonLikeTrack: FC<Props> = ({
 
   return (
     <button
-      onClick={() => {
+      onClick={(event) => {
         if (likedTracksIdsSet.has(track.id)) {
           unlikeTrack(track.id);
         } else {
           likeTrack(track);
         }
+        event.stopPropagation();
       }}
       className={cn(
-        "hover:text-accent transition-colors duration-200",
+        "hover:text-red-600 transition-colors duration-200",
         className,
       )}
       title={likedTracksIdsSet.has(track.id) ? "Unlike" : "Like"}

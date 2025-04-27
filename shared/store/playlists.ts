@@ -7,7 +7,7 @@ export interface PlaylistsState {
   isLoading: boolean;
   isError: boolean;
 
-  fetchPlaylists: (query: string) => Promise<void>;
+  fetchPlaylists: (query: string, params?: string) => Promise<void>;
 }
 
 export const usePlaylistsStore = create<PlaylistsState>((set) => ({
@@ -15,10 +15,10 @@ export const usePlaylistsStore = create<PlaylistsState>((set) => ({
   isError: false,
   isLoading: true,
 
-  fetchPlaylists: async (query: string) => {
+  fetchPlaylists: async (query: string, params?: string) => {
     try {
       set({ isLoading: true, isError: false });
-      const data = await Api.playlists.fetchPlaylists(query);
+      const data = await Api.playlists.fetchPlaylists(query, params);
       set({ items: data });
     } catch (e) {
       console.log("front fetchPlaylists error", e);
