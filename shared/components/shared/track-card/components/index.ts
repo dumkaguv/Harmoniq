@@ -3,3 +3,4 @@ export { TrackCardTitle as Title } from "./track-card-title";
 export { TrackCardGenre as Genre } from "./track-card-genre";
 export { TrackCardArtist as Artist } from "./track-card-artist";
 export { TrackCardAdditionalInfo as AdditionalInfo } from "./track-card-additional-info";
+export { TrackCardIndex as Index } from "./track-card-index";

@@ -3,9 +3,17 @@ import { cn } from "@/shared/lib/utils";
 
 interface Props {
   genre: string;
+  onClick?: () => void;
   className?: string;
 }
 
-export const TrackCardGenre: FC<Props> = ({ genre, className }) => {
-  return <p className={cn("text-neutral-500 font-semibold", className)}>{genre}</p>;
+export const TrackCardGenre: FC<Props> = ({ genre, onClick, className }) => {
+  return (
+    <p
+      onClick={onClick}
+      className={cn("font-semibold text-neutral-500", className)}
+    >
+      {genre}
+    </p>
+  );
 };

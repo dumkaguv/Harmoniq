@@ -2,27 +2,28 @@
 
 import React, { FC, useEffect, useRef, useState } from "react";
 import { cn } from "@/shared/lib/utils";
-import { calculateProgressPercentage } from "@/shared/lib/utils";
+import { calculatePlaybarProgressPercentage } from "@/shared/lib";
+import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
+import { useShallow } from "zustand/shallow";
 
 interface Props {
-  audioRef: React.RefObject<HTMLAudioElement | null>;
-  trackDuration: number;
-  currentTime: number;
   className?: string;
 }
 
-export const PlaybarProgressBar: FC<Props> = ({
-  audioRef,
-  trackDuration,
-  currentTime,
-  className,
-}) => {
+export const PlaybarProgressBar: FC<Props> = ({ className }) => {
   const barRef = useRef<HTMLDivElement | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [audioRef, trackDuration, currentTime] = useCurrentPlayingTrack(
+    useShallow((state) => [
+      state.audioRef,
+      state.trackDuration,
+      state.currentTime,
+    ]),
+  );
 
   const updateTime = (clientX: number) => {
     const rect = barRef.current?.getBoundingClientRect();
-    if (!rect || !audioRef.current) return;
+    if (!rect || !audioRef?.current) return;
 
     const clickX = clientX - rect.left;
     const newTime = Math.min(
@@ -74,14 +75,14 @@ export const PlaybarProgressBar: FC<Props> = ({
         <div
           className="bg-accent absolute h-0.5 rounded-4xl"
           style={{
-            width: `${calculateProgressPercentage(currentTime, trackDuration)}%`,
+            width: `${calculatePlaybarProgressPercentage(currentTime, trackDuration)}%`,
           }}
         />
 
         <div
           className="absolute top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-gray-200 bg-white shadow-lg"
           style={{
-            left: `${calculateProgressPercentage(currentTime, trackDuration)}%`,
+            left: `${calculatePlaybarProgressPercentage(currentTime, trackDuration)}%`,
           }}
           title="Seek"
         />

@@ -4,14 +4,17 @@ import { create } from "zustand";
 interface LikedTracksState {
   likedTracks: Track[];
   likedTracksIdsSet: Set<string>;
+  isLoading: boolean;
   likeTrack: (track: Track) => void;
   unlikeTrack: (trackId: string) => void;
   initializeLikedTracks: () => void;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
 export const useLikedTracksStore = create<LikedTracksState>((set, get) => ({
   likedTracks: [],
   likedTracksIdsSet: new Set(),
+  isLoading: true,
 
   likeTrack: (track) => {
     const updated = [...get().likedTracks, track];
@@ -28,6 +31,8 @@ export const useLikedTracksStore = create<LikedTracksState>((set, get) => ({
   },
 
   initializeLikedTracks: () => {
+    set({ isLoading: true });
+    console.log("store", get().isLoading)
     const storedTracks = JSON.parse(
       localStorage.getItem("likedTracks") || "[]",
     ) as Track[];
@@ -35,5 +40,8 @@ export const useLikedTracksStore = create<LikedTracksState>((set, get) => ({
       likedTracks: storedTracks,
       likedTracksIdsSet: new Set(storedTracks.map((track) => track.id)),
     });
+    set({ isLoading: false });
   },
+
+  setIsLoading: (isLoading) => set({ isLoading }),
 }));

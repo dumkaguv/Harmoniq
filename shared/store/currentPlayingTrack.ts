@@ -20,7 +20,7 @@ export interface CurrentPlayingTrack {
   setCurrentTime: (currentTime: number) => void;
   setCurrentVolume: (currentVolume: number) => void;
   setAudioSrc: (track: Track) => void;
-  setAudioRef: (audioRef: RefObject<HTMLAudioElement | null>) => void;
+  setAudioRef: (audioRef: RefObject<HTMLAudioElement | null> | null) => void;
   setIsPlaying: (isPlaying: boolean) => void;
   setIsRepeating: (isRepeating: boolean) => void;
   setIsLoading: (isLoading: boolean) => void;

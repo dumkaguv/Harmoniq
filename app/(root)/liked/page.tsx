@@ -2,9 +2,12 @@
 
 import { TrackList } from "@/shared/components/shared";
 import { useLikedTracksStore } from "@/shared/store/likedTracks";
+import { useShallow } from "zustand/shallow";
 
 export default function LikedTracksPage() {
-  const likedTracks = useLikedTracksStore((state) => state.likedTracks);
+  const [isLoading, likedTracks] = useLikedTracksStore(
+    useShallow((state) => [state.isLoading, state.likedTracks]),
+  );
 
   return (
     <div className="mt-10">
@@ -12,7 +15,7 @@ export default function LikedTracksPage() {
         My liked tracks
       </h1>
 
-      <TrackList tracks={likedTracks} className="mt-5" />
+      <TrackList tracks={likedTracks} isLoading={isLoading} className="mt-5" />
     </div>
   );
 }

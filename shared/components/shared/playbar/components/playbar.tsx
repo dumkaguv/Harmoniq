@@ -1,10 +1,9 @@
 "use client";
 
 import React, { FC, useEffect, useRef } from "react";
-import * as PlaylistCard from "@/shared/components/shared/playlist-card";
+import * as TrackCard from "@/shared/components/shared/track-card";
 import { Shuffle, SkipBack, SkipForward } from "lucide-react";
-import Link from "next/link";
-import { cn, formatTime } from "@/shared/lib/utils";
+import { cn, formatTrackTime } from "@/shared/lib";
 import { useAudio, useAutoPlay } from "../hooks";
 import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
 import { useShallow } from "zustand/shallow";
@@ -87,42 +86,41 @@ export const Playbar: FC<Props> = ({ className }) => {
           >
             <ul className="flex items-center justify-center gap-5">
               <li>
-                <PlaybarButtonPlayPause audioRef={audioRef} />
+                <PlaybarButtonPlayPause />
               </li>
               <li>
-                <PlaybarButtonRepeat audioRef={audioRef} />
+                <PlaybarButtonRepeat />
               </li>
             </ul>
 
             <div className="ml-5 flex items-center justify-center gap-3 font-semibold">
-              <span className="text-accent">{formatTime(currentTime)}</span>
-              <PlaybarProgressBar
-                audioRef={audioRef}
-                trackDuration={trackDuration}
-                currentTime={currentTime}
-              />
-              <span className="text-gray-600">{formatTime(trackDuration)}</span>
+              <span className="text-accent">
+                {formatTrackTime(currentTime)}
+              </span>
+              <PlaybarProgressBar />
+              <span className="text-gray-600">
+                {formatTrackTime(trackDuration)}
+              </span>
             </div>
 
             <div className="flex items-center gap-5">
-              <PlaybarButtonVolume audioRef={audioRef} />
+              <PlaybarButtonVolume />
               <ButtonLikeTrack track={track} />
             </div>
 
-            <PlaylistCard.Image
-              imageSrc={track.artwork["150x150"]}
+            <TrackCard.Image
+              imageUrl={track.artwork["150x150"]}
               width={45}
               height={40}
               className="h-[40px] w-[45px] shadow-lg"
             />
             <div>
-              <PlaylistCard.Title className="text-accent" title={track.title} />
-              <Link href="/">
-                <PlaylistCard.Author
-                  className="hover:text-accent max-w-[170px] transition-colors duration-200"
-                  author={track.user.name}
-                />
-              </Link>
+              <TrackCard.Title className="text-accent" title={track.title} />
+              <TrackCard.Artist
+                className="hover:text-accent max-w-[170px] transition-colors duration-200"
+                href={`/users/${track.user.id}`}
+                name={track.user.name}
+              />
             </div>
           </div>
         </div>

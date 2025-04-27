@@ -1,28 +1,27 @@
 "use client";
 
-import React, { FC, RefObject, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { cn } from "@/shared/lib/utils";
 import { Repeat } from "lucide-react";
 import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
 import { useShallow } from "zustand/shallow";
 
 interface Props {
-  audioRef: RefObject<HTMLAudioElement | null>;
   size?: number;
   className?: string;
 }
 
-export const PlaybarButtonRepeat: FC<Props> = ({
-  audioRef,
-  size = 24,
-  className,
-}) => {
-  const [isRepeating, setIsRepeating] = useCurrentPlayingTrack(
-    useShallow((state) => [state.isRepeating, state.setIsRepeating]),
+export const PlaybarButtonRepeat: FC<Props> = ({ size = 24, className }) => {
+  const [audioRef, isRepeating, setIsRepeating] = useCurrentPlayingTrack(
+    useShallow((state) => [
+      state.audioRef,
+      state.isRepeating,
+      state.setIsRepeating,
+    ]),
   );
 
   useEffect(() => {
-    const audio = audioRef.current;
+    const audio = audioRef?.current;
     if (!audio) {
       return;
     }
@@ -45,7 +44,7 @@ export const PlaybarButtonRepeat: FC<Props> = ({
     <button
       onClick={() => setIsRepeating(!isRepeating)}
       className={cn(
-        "hover:text-accent relative transition-colors",
+        "hover:text-accent relative flex items-center transition-colors",
         isRepeating &&
           "after:bg-accent after:absolute after:-bottom-3 after:left-1/2 after:h-1.5 after:w-1.5 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full",
         className,

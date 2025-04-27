@@ -7,7 +7,7 @@ export const LikedTracksInitializer = () => {
   const initializeLikedTracks = useLikedTracksStore(
     (state) => state.initializeLikedTracks,
   );
-
+  
   useEffect(() => {
     initializeLikedTracks();
   }, [initializeLikedTracks]);

@@ -1,24 +1,23 @@
 "use client";
 
-import React, { ChangeEvent, FC, RefObject, useEffect } from "react";
+import React, { ChangeEvent, FC, useEffect } from "react";
 import { cn } from "@/shared/lib/utils";
 import { Volume1, Volume2, VolumeOff } from "lucide-react";
 import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
 import { useShallow } from "zustand/shallow";
 
 interface Props {
-  audioRef: RefObject<HTMLAudioElement | null>;
   size?: number;
   className?: string;
 }
 
-export const PlaybarButtonVolume: FC<Props> = ({
-  audioRef,
-  size = 24,
-  className,
-}) => {
-  const [currentVolume, setCurrentVolume] = useCurrentPlayingTrack(
-    useShallow((state) => [state.currentVolume, state.setCurrentVolume]),
+export const PlaybarButtonVolume: FC<Props> = ({ size = 24, className }) => {
+  const [audioRef, currentVolume, setCurrentVolume] = useCurrentPlayingTrack(
+    useShallow((state) => [
+      state.audioRef,
+      state.currentVolume,
+      state.setCurrentVolume,
+    ]),
   );
 
   const handleVolumeIcon = () => {
@@ -34,7 +33,7 @@ export const PlaybarButtonVolume: FC<Props> = ({
   };
 
   const onVolumeButtonClick = () => {
-    const audio = audioRef.current;
+    const audio = audioRef?.current;
     if (!audio) {
       return;
     }
@@ -49,7 +48,7 @@ export const PlaybarButtonVolume: FC<Props> = ({
   };
 
   const onVolumeSliderChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const audio = audioRef.current;
+    const audio = audioRef?.current;
     if (!audio) {
       return;
     }
@@ -59,7 +58,7 @@ export const PlaybarButtonVolume: FC<Props> = ({
   };
 
   useEffect(() => {
-    const audio = audioRef.current;
+    const audio = audioRef?.current;
     if (audio) {
       audio.volume = currentVolume;
     }

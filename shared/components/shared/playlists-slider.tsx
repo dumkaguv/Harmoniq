@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FC, useRef } from "react";
-import { cn, getShuffledArray } from "@/shared/lib/utils";
+import { cn, getShuffledArray } from "@/shared/lib";
 import { useShallow } from "zustand/shallow";
 import * as PlaylistCard from "@/shared/components/shared/playlist-card";
 import { usePlaylistsStore } from "@/shared/store/playlists";

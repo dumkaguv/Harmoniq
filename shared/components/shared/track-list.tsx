@@ -11,16 +11,21 @@ import { Track } from "@/types/audius";
 
 interface Props {
   tracks: Track[];
+  isLoading?: boolean;
   className?: string;
 }
 
-export const TrackList: FC<Props> = ({ tracks, className }) => {
+export const TrackList: FC<Props> = ({ tracks, isLoading, className }) => {
   const [playingTrack, setTrack] = useCurrentPlayingTrack(
     useShallow((state) => [state.track, state.setTrack]),
   );
 
   const emptyLoader = (
-    <div className="border-accent mt-10 h-15 w-15 animate-spin rounded-full border-4 border-t-transparent" />
+    <div className="border-accent h-15 w-15 animate-spin rounded-full border-4 border-t-transparent" />
+  );
+
+  const emptyMessage = (
+    <p className="text-2xl text-red-500">No tracks found 😞</p>
   );
 
   return (
@@ -38,16 +43,18 @@ export const TrackList: FC<Props> = ({ tracks, className }) => {
             width={240}
             height={260}
           />
-          <span className="text-accent flex items-center gap-1">
+          <span
+            className={`mt-3 flex items-center gap-1 ${playingTrack?.id === track.id && "text-accent"}`}
+          >
             {playingTrack?.id === track.id && (
               <Volume2 className="text-accent" size={24} />
             )}
-            Title: <TrackCard.Title title={track.title} />
+            Title: <TrackCard.Title title={track.title} className="truncate" />
             <ButtonLikeTrack track={track} />
           </span>
           <span className="flex items-center gap-1 text-neutral-500">
             Artist:
-            <TrackCard.Artist name={track.user.name} />
+            <TrackCard.Artist href={`users/${track.user.id}`} name={track.user.name} />
           </span>
           <span className="flex items-center gap-1 text-neutral-500">
             Genre:
@@ -60,8 +67,9 @@ export const TrackList: FC<Props> = ({ tracks, className }) => {
           />
         </li>
       ))}
-      <li className="col-span-4 flex items-center justify-center self-center">
-        {tracks.length === 0 && emptyLoader}
+      <li className="col-span-4 mt-10">
+        {isLoading && emptyLoader}
+        {!isLoading && tracks.length === 0 && emptyMessage}
       </li>
     </ul>
   );

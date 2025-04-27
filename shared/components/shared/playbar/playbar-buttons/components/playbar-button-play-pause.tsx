@@ -1,32 +1,29 @@
 "use client";
 
-import React, { FC, RefObject, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { Pause, Play } from "lucide-react";
 import { cn } from "@/shared/lib";
 import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
 import { useShallow } from "zustand/shallow";
 
 interface Props {
-  audioRef: RefObject<HTMLAudioElement | null>;
   size?: number;
   className?: string;
 }
 
-export const PlaybarButtonPlayPause: FC<Props> = ({
-  audioRef,
-  size = 24,
-  className,
-}) => {
-  const [isPlaying, isRepeating, setIsPlaying] = useCurrentPlayingTrack(
-    useShallow((state) => [
-      state.isPlaying,
-      state.isRepeating,
-      state.setIsPlaying,
-    ]),
-  );
+export const PlaybarButtonPlayPause: FC<Props> = ({ size = 24, className }) => {
+  const [audioRef, isPlaying, isRepeating, setIsPlaying] =
+    useCurrentPlayingTrack(
+      useShallow((state) => [
+        state.audioRef,
+        state.isPlaying,
+        state.isRepeating,
+        state.setIsPlaying,
+      ]),
+    );
 
   const handleButtonClick = () => {
-    const audio = audioRef.current;
+    const audio = audioRef?.current;
     if (!audio) return;
 
     if (audio.paused) {
@@ -39,7 +36,7 @@ export const PlaybarButtonPlayPause: FC<Props> = ({
   };
 
   useEffect(() => {
-    const audio = audioRef.current;
+    const audio = audioRef?.current;
     if (!audio) return;
 
     const handleEnded = () => {
@@ -57,7 +54,10 @@ export const PlaybarButtonPlayPause: FC<Props> = ({
   return (
     <button
       onClick={handleButtonClick}
-      className={cn("hover:text-accent transition-colors", className)}
+      className={cn(
+        "hover:text-accent flex items-center transition-colors",
+        className,
+      )}
       title={isPlaying ? "Pause" : "Play"}
       aria-label={isPlaying ? "Pause" : "Play"}
       type="button"

@@ -6,8 +6,7 @@ import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
 import { useTopTracks } from "../hooks";
 import { TopTrackSkeleton } from "./top-track-skeleton";
 import { useShallow } from "zustand/shallow";
-import { Volume2 } from "lucide-react";
-import Link from "next/link";
+import * as TrackCard from "@/shared/components/shared/track-card";
 
 interface Props {
   className?: string;
@@ -51,23 +50,20 @@ export const TopTracks: FC<Props> = ({ className }) => {
                   className="hover:text-accent cursor-pointer py-[7.5px] pr-4 text-neutral-500 duration-200"
                   title="Play track"
                 >
-                  {playingTrack?.id === track.id ? (
-                    <Volume2 className="text-accent" size={24} />
-                  ) : (
-                    index + 1
-                  )}
+                  <TrackCard.Index trackId={track.id} index={index} />
                 </td>
                 <td
                   onClick={() => setTrack(track)}
                   className={`hover:text-accent max-w-[250px] cursor-pointer truncate pr-12 duration-200 ${playingTrack?.id === track.id && "text-accent"}`}
                   title="Play track"
                 >
-                  {track.title}
+                  <TrackCard.Title title={track.title} className="truncate" />
                 </td>
                 <td className="hover:text-accent cursor-pointer duration-200">
-                  <Link href="/" className="flex gap-2">
-                    {track.user.name}
-                  </Link>
+                  <TrackCard.Artist
+                    href={`users/${track.user.id}`}
+                    name={track.user.name}
+                  />
                 </td>
               </tr>
             ))}

@@ -1,15 +1,14 @@
 "use client";
 
 import React, { FC, Fragment } from "react";
-import { cn, formatTime } from "@/shared/lib/utils";
+import { cn, formatTrackTime } from "@/shared/lib";
 import { Playlist } from "@/types/audius";
-import { Volume2 } from "lucide-react";
 import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
 import { usePlaylistPageTracks } from "../hooks";
 import { PlaylistPageTrackSkeleton } from "./";
 import { useShallow } from "zustand/shallow";
-import Link from "next/link";
 import { ButtonLikeTrack } from "@/shared/components/shared";
+import * as TrackCard from "@/shared/components/shared/track-card";
 
 interface Props {
   playlist: Playlist;
@@ -53,38 +52,39 @@ export const PlaylistPageTracks: FC<Props> = ({ playlist, className }) => {
                 { "text-accent": playingTrack?.id === track.id },
               )}
             >
-              {playingTrack?.id === track.id ? (
-                <Volume2 className="text-accent" size={24} />
-              ) : (
-                index + 1
-              )}
+              <TrackCard.Index trackId={track.id} index={index} />
             </div>
             <div
               onClick={() => setTrack(track)}
-              className="flex cursor-pointer flex-col gap-1"
+              className="flex cursor-pointer gap-2"
             >
-              <span
-                className={`hover:text-accent transition-colors duration-200 ${playingTrack?.id === track.id && "text-accent"}`}
-                title="Play Track"
-              >
-                {track.title}
-              </span>
-              <Link
-                href=""
-                className="hover:text-accent text-gray-500 transition-colors duration-200"
-              >
-                {track.user.name}
-              </Link>
+              <TrackCard.Image
+                imageUrl={track.artwork["150x150"]}
+                width={50}
+                height={50}
+                className="shrink-0"
+              />
+              <div>
+                <TrackCard.Title
+                  className={`hover:text-accent transition-colors duration-200 ${playingTrack?.id === track.id && "text-accent"}`}
+                  title={track.title}
+                />
+                <TrackCard.Artist
+                  name={track.user.name}
+                  href={`/users/${track.user.id}`}
+                />
+              </div>
             </div>
-            <div
+            <TrackCard.Genre
               onClick={() => setTrack(track)}
+              genre={track.genre}
               className="cursor-pointer text-gray-500"
-            >
-              {track.genre}
-            </div>
+            />
             <ButtonLikeTrack track={track} />
             <div>{track.play_count}</div>
-            <div className="text-gray-500">{formatTime(track.duration)}</div>
+            <div className="text-gray-500">
+              {formatTrackTime(track.duration)}
+            </div>
           </Fragment>
         ))}
       {isLoading && skeletons}
