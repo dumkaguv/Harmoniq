@@ -1,9 +1,13 @@
+"use client";
+
 import { cn } from "@/shared/lib/utils";
 import { BookImage, Clock, Heart, Music } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { FC } from "react";
 
 interface Props {
+  activeLinkStyles?: string;
   className?: string;
 }
 
@@ -30,13 +34,18 @@ const LIBRARY_MENU = [
   },
 ];
 
-export const SidebarLibrary: FC<Props> = ({ className }) => {
+export const SidebarLibrary: FC<Props> = ({ activeLinkStyles, className }) => {
+  const pathname = usePathname();
+
   return (
     <div className={cn("mt-5 p-4", className)}>
       <h3 className="font-semibold text-neutral-600">Your Library</h3>
       <ul className="mt-4 flex flex-col gap-5 pl-3">
         {LIBRARY_MENU.map((item) => (
-          <li key={item.name}>
+          <li
+            className={`relative before:-left-7 ${pathname.includes(item.name.toLowerCase()) && activeLinkStyles}`}
+            key={item.name}
+          >
             <Link
               href={item.href}
               className="hover:text-accent flex items-center gap-2 text-neutral-600"

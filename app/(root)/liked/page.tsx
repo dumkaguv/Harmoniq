@@ -2,6 +2,7 @@
 
 import { TrackList } from "@/shared/components/shared";
 import { useLikedTracksStore } from "@/shared/store/likedTracks";
+import Head from "next/head";
 import { useShallow } from "zustand/shallow";
 
 export default function LikedTracksPage() {
@@ -10,12 +11,22 @@ export default function LikedTracksPage() {
   );
 
   return (
-    <div className="mt-10">
-      <h1 className="text-5xl font-semibold text-neutral-600">
-        My liked tracks
-      </h1>
+    <>
+      <Head>
+        <title>Liked Tracks</title>
+      </Head>
 
-      <TrackList tracks={likedTracks} isLoading={isLoading} className="mt-5" />
-    </div>
+      <div className="mt-10">
+        <h1 className="text-5xl font-semibold text-neutral-600">
+          My liked tracks
+        </h1>
+
+        <TrackList
+          tracks={likedTracks}
+          isLoading={isLoading}
+          className="mt-5"
+        />
+      </div>
+    </>
   );
 }

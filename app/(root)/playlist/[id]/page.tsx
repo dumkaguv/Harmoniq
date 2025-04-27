@@ -4,6 +4,11 @@ import {
 } from "@/shared/components/shared";
 import { Api } from "@/shared/services/api-client";
 import { Playlist } from "@/types/audius";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Music Player | Playlist",
+};
 
 export default async function PlaylistPage({
   params,

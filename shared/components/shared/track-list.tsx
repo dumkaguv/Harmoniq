@@ -54,7 +54,11 @@ export const TrackList: FC<Props> = ({ tracks, isLoading, className }) => {
           </span>
           <span className="flex items-center gap-1 text-neutral-500">
             Artist:
-            <TrackCard.Artist href={`users/${track.user.id}`} name={track.user.name} />
+            <TrackCard.Artist
+              href={`users/${track.user.id}`}
+              name={track.user.name}
+              onClick={(event) => event.stopPropagation()}
+            />
           </span>
           <span className="flex items-center gap-1 text-neutral-500">
             Genre:

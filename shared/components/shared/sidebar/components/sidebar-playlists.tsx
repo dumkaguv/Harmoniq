@@ -7,15 +7,22 @@ import { cn } from "@/shared/lib";
 import { Skeleton } from "@/shared/components/ui";
 import { usePlaylistsStore } from "@/shared/store/playlists";
 import { useShallow } from "zustand/shallow";
+import { usePathname } from "next/navigation";
 
 interface Props {
+  activeLinkStyles?: string;
   className?: string;
 }
 
-export const SidebarPlaylists: FC<Props> = ({ className }) => {
+export const SidebarPlaylists: FC<Props> = ({
+  activeLinkStyles,
+  className,
+}) => {
   const [playlists, isLoading, fetchPlaylists] = usePlaylistsStore(
     useShallow((state) => [state.items, state.isLoading, state.fetchPlaylists]),
   );
+
+  const pathname = usePathname();
 
   useEffect(() => {
     fetchPlaylists("trending", "time=week");
@@ -32,7 +39,10 @@ export const SidebarPlaylists: FC<Props> = ({ className }) => {
                 <Skeleton key={index} className="h-6 w-[220px]" />
               ))
           : playlists.map((playlist) => (
-              <li key={playlist.id}>
+              <li
+                className={`relative before:-left-4 ${pathname.includes(playlist.id) && activeLinkStyles}`}
+                key={playlist.id}
+              >
                 <Link
                   href={`/playlist/${playlist.id}`}
                   className="hover:text-accent flex text-neutral-600"

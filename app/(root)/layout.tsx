@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Music Player | Главная",
+  title: "Music Player | Main",
 };
 
 export default function HomeLayout({

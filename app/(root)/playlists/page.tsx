@@ -1,5 +1,10 @@
 import { PlaylistPageCard } from "@/shared/components/shared";
 import { Api } from "@/shared/services/api-client";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Music Player | Playlists",
+};
 
 export default async function TracksPage() {
   const playlists = await Api.playlists.fetchPlaylists(

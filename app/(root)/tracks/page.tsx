@@ -1,5 +1,10 @@
 import { TrackList } from "@/shared/components/shared";
 import { Api } from "@/shared/services/api-client";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Music Player | Tracks",
+};
 
 export default async function TracksPage() {
   const tracks = await Api.tracks.fetchTracks("trending", "time=allTime");
