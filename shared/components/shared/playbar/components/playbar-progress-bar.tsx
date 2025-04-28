@@ -3,7 +3,7 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { cn } from "@/shared/lib/utils";
 import { calculatePlaybarProgressPercentage } from "@/shared/lib";
-import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
+import { usePlaybar } from "@/shared/store/playbar";
 import { useShallow } from "zustand/shallow";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 export const PlaybarProgressBar: FC<Props> = ({ className }) => {
   const barRef = useRef<HTMLDivElement | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [audioRef, trackDuration, currentTime] = useCurrentPlayingTrack(
+  const [audioRef, trackDuration, currentTime] = usePlaybar(
     useShallow((state) => [
       state.audioRef,
       state.trackDuration,

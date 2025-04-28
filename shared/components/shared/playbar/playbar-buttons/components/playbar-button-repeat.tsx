@@ -3,7 +3,7 @@
 import React, { FC, useEffect } from "react";
 import { cn } from "@/shared/lib/utils";
 import { Repeat } from "lucide-react";
-import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
+import { usePlaybar } from "@/shared/store/playbar";
 import { useShallow } from "zustand/shallow";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const PlaybarButtonRepeat: FC<Props> = ({ size = 24, className }) => {
-  const [audioRef, isRepeating, setIsRepeating] = useCurrentPlayingTrack(
+  const [audioRef, isRepeating, setIsRepeating] = usePlaybar(
     useShallow((state) => [
       state.audioRef,
       state.isRepeating,
@@ -44,16 +44,16 @@ export const PlaybarButtonRepeat: FC<Props> = ({ size = 24, className }) => {
     <button
       onClick={() => setIsRepeating(!isRepeating)}
       className={cn(
-        "hover:text-accent relative flex items-center transition-colors",
+        "hover:text-accent flex items-center transition-colors",
         isRepeating &&
-          "after:bg-accent after:absolute after:-bottom-3 after:left-1/2 after:h-1.5 after:w-1.5 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full",
+          "after:bg-accent text-accent relative after:absolute after:-bottom-3 after:left-1/2 after:h-1.5 after:w-1.5 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full",
         className,
       )}
       title="Repeat"
       aria-label="Repeat"
       type="button"
     >
-      <Repeat className={isRepeating ? "text-accent" : ""} size={size} />
+      <Repeat size={size} />
     </button>
   );
 };

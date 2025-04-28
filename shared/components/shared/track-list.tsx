@@ -3,7 +3,7 @@
 import React, { FC } from "react";
 import { cn } from "@/shared/lib/utils";
 import * as TrackCard from "./track-card";
-import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
+import { usePlaybar } from "@/shared/store/playbar";
 import { ButtonLikeTrack } from "./button-like-track";
 import { useShallow } from "zustand/shallow";
 import { Volume2 } from "lucide-react";
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const TrackList: FC<Props> = ({ tracks, isLoading, className }) => {
-  const [playingTrack, setTrack] = useCurrentPlayingTrack(
+  const [playingTrack, setTrack] = usePlaybar(
     useShallow((state) => [state.track, state.setTrack]),
   );
 
@@ -34,7 +34,7 @@ export const TrackList: FC<Props> = ({ tracks, isLoading, className }) => {
         <li
           key={track.id}
           className="flex w-full cursor-pointer flex-col gap-1 p-1 transition-transform duration-200 hover:scale-[1.015]"
-          onClick={() => setTrack(track)}
+          onClick={() => setTrack(track, tracks)}
           title="Play track"
         >
           <TrackCard.Image

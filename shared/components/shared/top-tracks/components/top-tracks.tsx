@@ -2,7 +2,7 @@
 
 import React, { FC } from "react";
 import { cn } from "@/shared/lib/utils";
-import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
+import { usePlaybar } from "@/shared/store/playbar";
 import { useTopTracks } from "../hooks";
 import { TopTrackSkeleton } from "./top-track-skeleton";
 import { useShallow } from "zustand/shallow";
@@ -14,7 +14,7 @@ interface Props {
 
 export const TopTracks: FC<Props> = ({ className }) => {
   const { tracks, isLoading } = useTopTracks();
-  const [playingTrack, setTrack] = useCurrentPlayingTrack(
+  const [playingTrack, setTrack] = usePlaybar(
     useShallow((state) => [state.track, state.setTrack]),
   );
 
@@ -46,14 +46,14 @@ export const TopTracks: FC<Props> = ({ className }) => {
                 )}
               >
                 <td
-                  onClick={() => setTrack(track)}
+                  onClick={() => setTrack(track, tracks.slice(0, 7))}
                   className="hover:text-accent cursor-pointer py-[7.5px] pr-4 text-neutral-500 duration-200"
                   title="Play track"
                 >
                   <TrackCard.Index trackId={track.id} index={index} />
                 </td>
                 <td
-                  onClick={() => setTrack(track)}
+                  onClick={() => setTrack(track, tracks.slice(0, 7))}
                   className={`hover:text-accent max-w-[250px] cursor-pointer truncate pr-12 duration-200 ${playingTrack?.id === track.id && "text-accent"}`}
                   title="Play track"
                 >

@@ -1,13 +1,12 @@
 import { useEffect } from "react";
-import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
+import { usePlaybar } from "@/shared/store/playbar";
 import { useShallow } from "zustand/shallow";
-import { useAudioSrc } from "./";
 
 export const useAudio = (
   audioRef: React.RefObject<HTMLAudioElement | null>,
 ) => {
   const [track, audioSrc, setCurrentTime, setTrackDuration, setAudioRef] =
-    useCurrentPlayingTrack(
+    usePlaybar(
       useShallow((state) => [
         state.track,
         state.audioSrc,
@@ -17,7 +16,9 @@ export const useAudio = (
       ]),
     );
 
-  useAudioSrc(track);
+  useEffect(() => {
+    setAudioRef(audioRef);
+  }, [audioRef, setAudioRef]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -29,20 +30,10 @@ export const useAudio = (
       setCurrentTime(audio.currentTime);
     };
 
-    const handleLoadedMetadata = () => {
-      setTrackDuration(audio.duration);
-    };
-
     audio.addEventListener("timeupdate", handleTimeUpdate);
-    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
 
     return () => {
       audio.removeEventListener("timeupdate", handleTimeUpdate);
-      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
     };
   }, [track, audioSrc, audioRef, setCurrentTime, setTrackDuration]);
-
-  useEffect(() => {
-    setAudioRef(audioRef);
-  }, [audioRef, setAudioRef]);
 };

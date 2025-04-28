@@ -37,13 +37,16 @@ const LIBRARY_MENU = [
 export const SidebarLibrary: FC<Props> = ({ activeLinkStyles, className }) => {
   const pathname = usePathname();
 
+  console.log(pathname.toLowerCase());
+  console.log(LIBRARY_MENU[0].name.toLowerCase());
+
   return (
     <div className={cn("mt-5 p-4", className)}>
       <h3 className="font-semibold text-neutral-600">Your Library</h3>
       <ul className="mt-4 flex flex-col gap-5 pl-3">
         {LIBRARY_MENU.map((item) => (
           <li
-            className={`relative before:-left-7 ${pathname.includes(item.name.toLowerCase()) && activeLinkStyles}`}
+            className={`relative before:-left-7 ${pathname.toLowerCase() === item.href.toLowerCase() && activeLinkStyles}`}
             key={item.name}
           >
             <Link

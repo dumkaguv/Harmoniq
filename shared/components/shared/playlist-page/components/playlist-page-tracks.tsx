@@ -3,7 +3,7 @@
 import React, { FC, Fragment } from "react";
 import { cn, formatTrackTime } from "@/shared/lib";
 import { Playlist } from "@/types/audius";
-import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
+import { usePlaybar } from "@/shared/store/playbar";
 import { usePlaylistPageTracks } from "../hooks";
 import { PlaylistPageTrackSkeleton } from "./";
 import { useShallow } from "zustand/shallow";
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const PlaylistPageTracks: FC<Props> = ({ playlist, className }) => {
-  const [playingTrack, setTrack] = useCurrentPlayingTrack(
+  const [playingTrack, setTrack] = usePlaybar(
     useShallow((state) => [state.track, state.setTrack]),
   );
   const { isLoading, tracks } = usePlaylistPageTracks(playlist.id);
@@ -45,7 +45,7 @@ export const PlaylistPageTracks: FC<Props> = ({ playlist, className }) => {
         tracks.map((track, index) => (
           <Fragment key={`${index}-${track.id}`}>
             <div
-              onClick={() => setTrack(track)}
+              onClick={() => setTrack(track, tracks)}
               title="Play Track"
               className={cn(
                 "hover:text-accent cursor-pointer text-gray-500 transition duration-200",
@@ -55,7 +55,7 @@ export const PlaylistPageTracks: FC<Props> = ({ playlist, className }) => {
               <TrackCard.Index trackId={track.id} index={index} />
             </div>
             <div
-              onClick={() => setTrack(track)}
+              onClick={() => setTrack(track, tracks)}
               className="flex cursor-pointer gap-2"
             >
               <TrackCard.Image
@@ -76,7 +76,7 @@ export const PlaylistPageTracks: FC<Props> = ({ playlist, className }) => {
               </div>
             </div>
             <TrackCard.Genre
-              onClick={() => setTrack(track)}
+              onClick={() => setTrack(track, tracks)}
               genre={track.genre}
               className="cursor-pointer text-gray-500"
             />

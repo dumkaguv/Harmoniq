@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
+import { usePlaybar } from "@/shared/store/playbar";
 import { Volume2 } from "lucide-react";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const TrackCardIndex: FC<Props> = ({ trackId, index }) => {
-  const playingTrackId = useCurrentPlayingTrack((state) => state.track?.id);
+  const playingTrackId = usePlaybar((state) => state.track?.id);
 
   return (
     <>

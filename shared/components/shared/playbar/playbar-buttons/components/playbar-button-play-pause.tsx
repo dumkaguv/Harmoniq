@@ -3,7 +3,7 @@
 import React, { FC, useEffect } from "react";
 import { Pause, Play } from "lucide-react";
 import { cn } from "@/shared/lib";
-import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
+import { usePlaybar } from "@/shared/store/playbar";
 import { useShallow } from "zustand/shallow";
 
 interface Props {
@@ -12,10 +12,11 @@ interface Props {
 }
 
 export const PlaybarButtonPlayPause: FC<Props> = ({ size = 24, className }) => {
-  const [audioRef, isPlaying, isRepeating, setIsPlaying] =
-    useCurrentPlayingTrack(
+  const [audioRef, currentTime, isPlaying, isRepeating, setIsPlaying] =
+    usePlaybar(
       useShallow((state) => [
         state.audioRef,
+        state.currentTime,
         state.isPlaying,
         state.isRepeating,
         state.setIsPlaying,
@@ -27,6 +28,7 @@ export const PlaybarButtonPlayPause: FC<Props> = ({ size = 24, className }) => {
     if (!audio) return;
 
     if (audio.paused) {
+      audio.currentTime = currentTime;
       audio.play();
       setIsPlaying(true);
     } else {
@@ -42,13 +44,13 @@ export const PlaybarButtonPlayPause: FC<Props> = ({ size = 24, className }) => {
     const handleEnded = () => {
       if (!isRepeating) {
         setIsPlaying(false);
+        audio.pause();
       }
     };
 
     audio.addEventListener("ended", handleEnded);
-    return () => {
-      audio.removeEventListener("ended", handleEnded);
-    };
+
+    return () => audio.removeEventListener("ended", handleEnded);
   }, [audioRef, isRepeating, setIsPlaying, isPlaying]);
 
   return (

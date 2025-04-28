@@ -3,7 +3,7 @@
 import React, { ChangeEvent, FC, useEffect } from "react";
 import { cn } from "@/shared/lib/utils";
 import { Volume1, Volume2, VolumeOff } from "lucide-react";
-import { useCurrentPlayingTrack } from "@/shared/store/currentPlayingTrack";
+import { usePlaybar } from "@/shared/store/playbar";
 import { useShallow } from "zustand/shallow";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const PlaybarButtonVolume: FC<Props> = ({ size = 24, className }) => {
-  const [audioRef, currentVolume, setCurrentVolume] = useCurrentPlayingTrack(
+  const [audioRef, currentVolume, setCurrentVolume] = usePlaybar(
     useShallow((state) => [
       state.audioRef,
       state.currentVolume,

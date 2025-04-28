@@ -32,7 +32,7 @@ export const useLikedTracksStore = create<LikedTracksState>((set, get) => ({
 
   initializeLikedTracks: () => {
     set({ isLoading: true });
-    console.log("store", get().isLoading)
+
     const storedTracks = JSON.parse(
       localStorage.getItem("likedTracks") || "[]",
     ) as Track[];

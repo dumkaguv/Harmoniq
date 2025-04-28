@@ -24,7 +24,7 @@ export const UserCard: FC<Props> = ({ user, className }) => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="absolute top-10 left-10 text-white">
+      <div className="absolute top-10 left-10 text-accent">
         <h1 className="text-accent text-7xl font-bold">{user.name}</h1>
         <div className="mt-2 flex items-center gap-5">
           <img
