@@ -26,6 +26,7 @@ export const TrackCardImage: FC<Props> = ({
       width={width}
       height={height}
       alt={alt}
+      loading="lazy"
     />
   );
 };

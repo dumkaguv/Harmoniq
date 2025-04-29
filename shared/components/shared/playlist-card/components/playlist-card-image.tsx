@@ -26,6 +26,7 @@ export const PlaylistCardImage: FC<Props> = ({
       alt={alt}
       width={width}
       height={height}
+      loading="lazy"
     />
   );
 };

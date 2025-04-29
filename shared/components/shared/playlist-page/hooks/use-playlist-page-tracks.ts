@@ -2,8 +2,12 @@ import { Api } from "@/shared/services/api-client";
 import { Track } from "@/types/audius";
 import { useEffect, useState } from "react";
 
+export interface TrackWithIndexes extends Track {
+  index: number;
+}
+
 export const usePlaylistPageTracks = (playlistId: string) => {
-  const [tracks, setTracks] = useState<Track[]>([]);
+  const [tracks, setTracks] = useState<TrackWithIndexes[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -11,7 +15,13 @@ export const usePlaylistPageTracks = (playlistId: string) => {
       try {
         setIsLoading(true);
         const data = await Api.playlists.fetchPlaylistTracks(playlistId);
-        setTracks(data);
+
+        setTracks(
+          data.map((item: Track, index: number) => ({
+            ...item,
+            index,
+          })),
+        );
       } catch (e) {
         console.log("front fetchTracks error", e);
       } finally {
@@ -22,5 +32,5 @@ export const usePlaylistPageTracks = (playlistId: string) => {
     fetchTracks();
   }, [playlistId]);
 
-  return { tracks, isLoading };
+  return { tracks, setTracks, isLoading };
 };

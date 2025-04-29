@@ -1,13 +1,13 @@
 "use client";
 
-import React, { FC, Fragment } from "react";
+import React, { FC, Fragment, useState } from "react";
 import { cn, formatTrackTime } from "@/shared/lib";
 import { Playlist } from "@/types/audius";
 import { usePlaybar } from "@/shared/store/playbar";
 import { usePlaylistPageTracks } from "../hooks";
 import { PlaylistPageTrackSkeleton } from "./";
 import { useShallow } from "zustand/shallow";
-import { ButtonLikeTrack } from "@/shared/components/shared";
+import { ButtonLikeTrack, SortArrow } from "@/shared/components/shared";
 import * as TrackCard from "@/shared/components/shared/track-card";
 
 interface Props {
@@ -19,11 +19,44 @@ export const PlaylistPageTracks: FC<Props> = ({ playlist, className }) => {
   const [playingTrack, setTrack] = usePlaybar(
     useShallow((state) => [state.track, state.setTrack]),
   );
-  const { isLoading, tracks } = usePlaylistPageTracks(playlist.id);
+  const { tracks, setTracks, isLoading } = usePlaylistPageTracks(playlist.id);
+  const [sortConfig, setSortConfig] = useState({
+    index: null,
+    play_count: null,
+    duration: null,
+  });
 
   const skeletons = new Array(7)
     .fill(0)
     .map((_, index) => <PlaylistPageTrackSkeleton key={index} />);
+
+  const sortByColumn = (column: keyof typeof sortConfig) => {
+    setSortConfig((prev) => {
+      const cleared = Object.fromEntries(
+        Object.keys(prev).map((key) => [key, null]),
+      );
+
+      return {
+        ...cleared,
+        [column]: prev[column] === "asc" ? "desc" : "asc",
+      } as unknown as typeof prev;
+    });
+
+    const sorted = tracks.toSorted((a, b) => {
+      const valA = a[column];
+      const valB = b[column];
+
+      if (typeof valA === "number" && typeof valB === "number") {
+        return sortConfig[column] === null || sortConfig[column] === "desc"
+          ? valA - valB
+          : valB - valA;
+      } else {
+        return 0;
+      }
+    });
+
+    setTracks(sorted);
+  };
 
   return (
     <div
@@ -32,18 +65,44 @@ export const PlaylistPageTracks: FC<Props> = ({ playlist, className }) => {
         className,
       )}
     >
-      <div className="font-bold text-gray-700">#</div>
+      <div
+        onClick={() => sortByColumn("index")}
+        className={`user-select-none hover:text-accent flex cursor-pointer items-center gap-1 font-bold transition-colors duration-200 ${
+          sortConfig.index ? "text-accent" : "text-gray-700"
+        }`}
+      >
+        #
+        <SortArrow direction={sortConfig.index} />
+      </div>
+
       <div className="font-bold text-gray-700">Title</div>
       <div className="font-bold text-gray-700">Genre</div>
       <div className="font-bold text-gray-700">Like</div>
-      <div className="flex items-center gap-2 font-bold text-gray-700">
+
+      <div
+        onClick={() => sortByColumn("play_count")}
+        className={`hover:text-accent user-select-none flex cursor-pointer items-center gap-1 font-bold transition-colors duration-200 ${
+          sortConfig.play_count ? "text-accent" : "text-gray-700"
+        }`}
+      >
         Play count
+        <SortArrow direction={sortConfig.play_count} />
       </div>
-      <div className="font-bold text-gray-700">Duration</div>
+
+      <div
+        onClick={() => sortByColumn("duration")}
+        className={`hover:text-accent user-select-none flex cursor-pointer items-center gap-1 font-bold transition-colors duration-200 ${
+          sortConfig.duration ? "text-accent" : "text-gray-700"
+        }`}
+      >
+        Duration
+        <SortArrow direction={sortConfig.duration} />
+      </div>
+
       {!isLoading &&
         tracks.length > 0 &&
-        tracks.map((track, index) => (
-          <Fragment key={`${index}-${track.id}`}>
+        tracks.map((track) => (
+          <Fragment key={`${track.index}-${track.id}`}>
             <div
               onClick={() => setTrack(track, tracks)}
               title="Play Track"
@@ -52,7 +111,7 @@ export const PlaylistPageTracks: FC<Props> = ({ playlist, className }) => {
                 { "text-accent": playingTrack?.id === track.id },
               )}
             >
-              <TrackCard.Index trackId={track.id} index={index} />
+              <TrackCard.Index trackId={track.id} index={track.index} />
             </div>
             <div
               onClick={() => setTrack(track, tracks)}

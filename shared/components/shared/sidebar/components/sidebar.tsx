@@ -2,7 +2,7 @@
 
 import React, { FC } from "react";
 import { cn } from "@/shared/lib/utils";
-import { Globe } from "lucide-react";
+import { AudioLines } from "lucide-react";
 import Link from "next/link";
 
 import { SidebarLibrary, SidebarPlaylists } from "./";
@@ -30,8 +30,8 @@ export const Sidebar: FC<Props> = ({ className }) => {
           className={`relative flex items-center gap-2 pl-6 font-semibold ${pathname === "/" && activeLinkStyles}`}
           href="/"
         >
-          <Globe size={20} />
-          Recommended For You
+          <AudioLines size={20} />
+          Harmoniq
         </Link>
 
         <SidebarLibrary activeLinkStyles={activeLinkStyles} />

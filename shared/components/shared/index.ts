@@ -8,6 +8,7 @@ export { RecentTracksInitializer } from "./recent-tracks-initializer";
 export { ButtonLikeTrack } from "./button-like-track";
 export { TrackList } from "./track-list";
 export { UserCard } from "./user-card";
+export { SortArrow } from "./sort-arrow";
 
 export * from "./sidebar";
 export * from "./playlist-card";
