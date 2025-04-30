@@ -37,9 +37,6 @@ const LIBRARY_MENU = [
 export const SidebarLibrary: FC<Props> = ({ activeLinkStyles, className }) => {
   const pathname = usePathname();
 
-  console.log(pathname.toLowerCase());
-  console.log(LIBRARY_MENU[0].name.toLowerCase());
-
   return (
     <div className={cn("mt-5 p-4", className)}>
       <h3 className="font-semibold text-neutral-600">Your Library</h3>
@@ -51,7 +48,7 @@ export const SidebarLibrary: FC<Props> = ({ activeLinkStyles, className }) => {
           >
             <Link
               href={item.href}
-              className="hover:text-accent flex items-center gap-2 text-neutral-600"
+              className="hover:text-accent flex items-center gap-2 text-inherit"
             >
               {item.icon}
               {item.name}

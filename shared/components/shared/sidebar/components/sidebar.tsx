@@ -14,7 +14,7 @@ interface Props {
 
 export const Sidebar: FC<Props> = ({ className }) => {
   const activeLinkStyles =
-    "before:bg-accent before:absolute before:inset-0 before:h-full before:w-2 before:rounded-r-sm";
+    "before:bg-accent before:absolute before:inset-0 before:h-full before:w-2 before:rounded-r-sm text-accent";
 
   const pathname = usePathname();
 

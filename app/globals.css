@@ -27,6 +27,7 @@
 body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  @apply text-neutral-600;
 }
 
 @layer base {
