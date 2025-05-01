@@ -14,7 +14,7 @@ export const PlaylistPageCard: FC<Props> = ({ playlist, className }) => {
     <div className={cn("flex gap-5", className)}>
       <Link href={`/playlist/${playlist.id}`}>
         <PlaylistCard.Image
-          imageSrc={playlist.artwork["1000x1000"]}
+          imageSrc={playlist.artwork["480x480"]}
           width={350}
           height={350}
           className="min-w-[350px]"

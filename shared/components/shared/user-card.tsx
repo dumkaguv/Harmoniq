@@ -27,10 +27,6 @@ export const UserCard: FC<Props> = ({ user, className }) => {
 
   useEffect(() => {
     const fetchUserTracks = async () => {
-      if (userTracks.length === user.track_count) {
-        setCanLoadMore(false);
-        return;
-      }
       setIsLoading(true);
       try {
         const data = await Api.users.fetchPlaylistTracks(
@@ -38,26 +34,27 @@ export const UserCard: FC<Props> = ({ user, className }) => {
           LIMIT,
           offset,
         );
-
-        setUserTracks((prev) => [...prev, ...data]);
+        if (data.length < LIMIT || data.length === 0) {
+          setCanLoadMore(false);
+        }
+        setUserTracks([...userTracks, ...data]);
       } catch (e) {
         console.error(e);
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchUserTracks();
-  }, [offset, user, userTracks.length]);
+  }, [offset, user]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
+      (entries) => {  
         if (entries[0].isIntersecting && !isLoading) {
           setOffset((prev) => prev + LIMIT);
         }
       },
-      { threshold: 0.5 },
+      { threshold: 0.9 },
     );
 
     if (infiniteScrollRef.current) {
@@ -122,6 +119,7 @@ export const UserCard: FC<Props> = ({ user, className }) => {
       <div className="relative">
         <TracksTable
           tracks={userTracks}
+          trackCount={user.track_count}
           setTracks={setUserTracks}
           isLoading={isLoading}
           canLoadMore={canLoadMore}

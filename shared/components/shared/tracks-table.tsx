@@ -15,6 +15,7 @@ import { TrackWithIndexes } from "./playlist-page/hooks/use-playlist-page-tracks
 
 interface Props {
   tracks: TrackWithIndexes[];
+  trackCount?: number;
   canLoadMore?: boolean;
   setTracks?: (tracks: TrackWithIndexes[]) => void;
   isLoading?: boolean;
@@ -23,6 +24,7 @@ interface Props {
 
 export const TracksTable: FC<Props> = ({
   tracks,
+  trackCount,
   setTracks,
   isLoading,
   canLoadMore,
@@ -39,7 +41,7 @@ export const TracksTable: FC<Props> = ({
 
   const skeletons = useMemo(
     () =>
-      new Array(7)
+      new Array(10)
         .fill(0)
         .map((_, index) => <PlaylistPageTrackSkeleton key={index} />),
     [],
@@ -72,6 +74,10 @@ export const TracksTable: FC<Props> = ({
 
     setTracks?.(sorted);
   };
+
+  if (trackCount === 0) {
+    return <div className="col-span-6">No tracks found</div>;
+  }
 
   return (
     <div
