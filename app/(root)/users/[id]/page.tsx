@@ -3,7 +3,7 @@ import { Api } from "@/shared/services/api-client";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Music Player | Users",
+  title: "Harmoniq | Users",
 };
 
 export default async function TracksPage({

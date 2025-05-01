@@ -24,7 +24,7 @@ export const InputIconSearch: FC<Props> = ({
       />
       {value && (
         <button
-          className="absolute top-[50%] right-3 z-1 translate-y-[-50%] text-gray-400"
+          className="hover:text-accent absolute top-[50%] right-3 z-1 translate-y-[-50%] text-gray-400 transition-colors duration-200"
           onClick={() => setSearchValue("")}
           title="Clear"
           aria-label="Clear"

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 export const useHeaderSearch = () => {
   const [foundTracks, setFoundTracks] = useState<Track[]>([]);
   const [searchValue, setSearchValue] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchSearchedTracks = useCallback(async () => {
@@ -32,5 +33,12 @@ export const useHeaderSearch = () => {
     };
   }, [searchValue, fetchSearchedTracks]);
 
-  return { foundTracks, searchValue, isLoading, setSearchValue };
+  return {
+    foundTracks,
+    searchValue,
+    isFocused,
+    isLoading,
+    setSearchValue,
+    setIsFocused,
+  };
 };

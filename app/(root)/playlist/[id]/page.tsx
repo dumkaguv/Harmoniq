@@ -7,7 +7,7 @@ import { Playlist } from "@/types/audius";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Music Player | Playlist",
+  title: "Harmoniq | Playlist",
 };
 
 export default async function PlaylistPage({
