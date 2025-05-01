@@ -3,7 +3,7 @@ import { Track } from "@/types/audius";
 import { useEffect, useState } from "react";
 
 export interface TrackWithIndexes extends Track {
-  index: number;
+  index?: number;
 }
 
 export const usePlaylistPageTracks = (playlistId: string) => {

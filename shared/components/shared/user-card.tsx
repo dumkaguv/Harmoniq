@@ -1,44 +1,96 @@
-import React, { FC } from "react";
-import { cn } from "@/shared/lib/utils";
-import { User } from "@/types/audius";
+"use client";
+
+import React, { FC, useEffect, useRef, useState } from "react";
+import { Track, User } from "@/types/audius";
 import {
   AudioLines,
   BookImage,
   ExternalLink,
   User as UserIcon,
 } from "lucide-react";
+import { Api } from "@/shared/services/api-client";
+import { TracksTable } from "./tracks-table";
 
 interface Props {
   user: User;
   className?: string;
 }
 
+const LIMIT = 20;
+
 export const UserCard: FC<Props> = ({ user, className }) => {
+  const infiniteScrollRef = useRef<HTMLDivElement>(null);
+  const [offset, setOffset] = useState(0);
+  const [userTracks, setUserTracks] = useState<Track[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [canLoadMore, setCanLoadMore] = useState(true);
+
+  useEffect(() => {
+    const fetchUserTracks = async () => {
+      if (userTracks.length === user.track_count) {
+        setCanLoadMore(false);
+        return;
+      }
+      setIsLoading(true);
+      try {
+        const data = await Api.users.fetchPlaylistTracks(
+          user.id,
+          LIMIT,
+          offset,
+        );
+
+        setUserTracks((prev) => [...prev, ...data]);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserTracks();
+  }, [offset, user, userTracks.length]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !isLoading) {
+          setOffset((prev) => prev + LIMIT);
+        }
+      },
+      { threshold: 0.5 },
+    );
+
+    if (infiniteScrollRef.current) {
+      observer.observe(infiniteScrollRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [isLoading]);
+
   return (
-    <div
-      className={cn("relative mr-5 min-h-[430px] w-full rounded-md", className)}
-      style={{
-        backgroundImage: `url("${user.cover_photo["2000x"]}")`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <div className="absolute top-10 left-10 text-accent">
-        <h1 className="text-accent text-7xl font-bold">{user.name}</h1>
-        <div className="mt-2 flex items-center gap-5">
-          <img
-            src={user.profile_picture["480x480"]}
-            className="rounded-sm shadow-2xl"
-            width={250}
-            height={250}
-            alt={"profile picture"}
-          />
+    <div className={className}>
+      <img
+        src={user.cover_photo["640x"]}
+        className="mr-5 max-h-[300px] w-full rounded-l-md object-cover"
+        width={1370}
+        height={300}
+        alt=""
+      />
+      <div className="flex gap-x-5">
+        <img
+          src={user.profile_picture["480x480"]}
+          className="border-accent relative -top-12 h-[250px] w-[250px] rounded-full border-2"
+          width={250}
+          height={250}
+          alt={"profile picture"}
+        />
+        <div className="flex flex-col gap-1">
+          <h1 className="text-accent text-7xl font-bold">{user.name}</h1>
           <div className="pr-5">
             <span>Bio: {user.bio}</span>
             <div className="mt-2 flex gap-1">
               <AudioLines size={24} />
-              <span>Track count</span>:{" "}
+              <span>Tracks count</span>:{" "}
               <span className="font-semibold">{user.track_count}</span>
             </div>
             <div className="mt-2 flex gap-1">
@@ -66,6 +118,19 @@ export const UserCard: FC<Props> = ({ user, className }) => {
             )}
           </div>
         </div>
+      </div>
+      <div className="relative">
+        <TracksTable
+          tracks={userTracks}
+          setTracks={setUserTracks}
+          isLoading={isLoading}
+          canLoadMore={canLoadMore}
+          className="mt-5 pr-5"
+        />
+        <div
+          ref={infiniteScrollRef}
+          className="absolute bottom-0 left-0 h-1 w-full"
+        />
       </div>
     </div>
   );

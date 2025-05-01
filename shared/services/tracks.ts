@@ -18,9 +18,13 @@ export const getTrackAudioSrc = async (trackId: string) => {
   return data.src;
 };
 
-export const fetchSearchTracks = async (query: string) => {
+export const fetchSearchTracks = async (
+  query: string,
+  limit: number = 20,
+  offset: number = 0,
+) => {
   const { data } = await axiosInstance.get<Track[]>(
-    `${ApiRoutes.TRACKS}/search?query=${query}`,
+    `${ApiRoutes.TRACKS}/search?query=${query}&limit=${limit}&offset=${offset}`,
   );
 
   return data;

@@ -8,6 +8,7 @@ export { ButtonLikeTrack } from "./button-like-track";
 export { TrackList } from "./track-list";
 export { UserCard } from "./user-card";
 export { SortArrow } from "./sort-arrow";
+export { TracksTable } from "./tracks-table";
 
 export * from "./header";
 export * from "./sidebar";

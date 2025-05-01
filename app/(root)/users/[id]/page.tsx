@@ -14,8 +14,6 @@ export default async function TracksPage({
   const { id: userId } = await params;
   const user = await Api.users.fetchUser(userId);
 
-  console.log(user);
-
   return (
     <div className="mt-10">
       <UserCard user={user} />

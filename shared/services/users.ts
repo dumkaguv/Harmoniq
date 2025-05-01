@@ -11,10 +11,15 @@ export const fetchUser = async (userId: string) => {
   return data.data;
 };
 
-export const fetchPlaylistTracks = async (userId: string) => {
+export const fetchPlaylistTracks = async (
+  userId: string,
+  limit: number = 20,
+  offset: number = 0,
+) => {
   const { data } = await axios.get<Track[]>(
-    `https://api.audius.co/v1/${ApiRoutes.USERS}/${userId}/tracks`,
+    `https://api.audius.co/v1/${ApiRoutes.USERS}/${userId}/tracks?limit=${limit}&offset=${offset}`,
   );
 
-  return data;
+  // @ts-expect-error nested data
+  return data.data;
 };
