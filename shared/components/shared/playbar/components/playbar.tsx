@@ -69,8 +69,8 @@ export const Playbar: FC<Props> = ({ className }) => {
               isLoading && "pointer-events-none blur-xs",
             )}
           >
-            <div className="flex gap-4 max-[1100px]:flex max-[1100px]:flex-col max-[1100px]:gap-0">
-              <ul className="flex items-center justify-center gap-5 max-xl:gap-4 max-sm:gap-3">
+            <div className="flex gap-4 max-[1100px]:flex max-[1100px]:flex-col max-[1100px]:gap-2.5">
+              <ul className="flex items-center justify-center gap-5 max-xl:gap-4">
                 {PLAYBAR_BUTTONS.map((item) => (
                   <li key={item.name}>{item.component}</li>
                 ))}
