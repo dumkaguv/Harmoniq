@@ -81,14 +81,14 @@ export const PlaybarButtonVolume: FC<Props> = ({ size = 24, className }) => {
           min={0}
           max={1}
           step={0.01}
-          value={currentVolume || 1}
+          value={currentVolume}
           onChange={onVolumeSliderChange}
           className="appearance-none bg-transparent"
         />
         <div
           className="bg-accent pointer-events-none absolute top-1/2 left-0 h-[5px] -translate-y-1/2 rounded-full"
           style={{
-            width: `${(currentVolume || 1) * 100}%`,
+            width: `${currentVolume * 100}%`,
           }}
         />
       </div>

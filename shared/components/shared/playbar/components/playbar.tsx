@@ -82,7 +82,7 @@ export const Playbar: FC<Props> = ({ className }) => {
                 </span>
                 <PlaybarProgressBar />
                 <span className="text-gray-600">
-                  {formatTrackTime(trackDuration)}
+                  {formatTrackTime(trackDuration || 0)}
                 </span>
               </div>
             </div>
