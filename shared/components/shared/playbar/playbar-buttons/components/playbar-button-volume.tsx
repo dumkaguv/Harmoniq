@@ -39,11 +39,11 @@ export const PlaybarButtonVolume: FC<Props> = ({ size = 24, className }) => {
     }
 
     if (audio.volume === 0) {
-      setCurrentVolume(1);
       audio.volume = 1;
+      setCurrentVolume(1);
     } else {
-      setCurrentVolume(0);
       audio.volume = 0;
+      setCurrentVolume(0);
     }
   };
 
@@ -80,15 +80,15 @@ export const PlaybarButtonVolume: FC<Props> = ({ size = 24, className }) => {
           type="range"
           min={0}
           max={1}
+          value={isNaN(currentVolume) ? 1 : currentVolume}
           step={0.01}
-          value={currentVolume}
           onChange={onVolumeSliderChange}
           className="appearance-none bg-transparent"
         />
         <div
           className="bg-accent pointer-events-none absolute top-1/2 left-0 h-[5px] -translate-y-1/2 rounded-full"
           style={{
-            width: `${currentVolume * 100}%`,
+            width: `${(isNaN(currentVolume) ? 1 : currentVolume) * 100}%`,
           }}
         />
       </div>
