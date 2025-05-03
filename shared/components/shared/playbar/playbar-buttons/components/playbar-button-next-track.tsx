@@ -23,11 +23,11 @@ export const PlaybarButtonNextTrack: FC<Props> = ({ size = 24, className }) => {
 
   return (
     <button
-      disabled={currentPlayingTrackIndex === trackQueue.length - 1}
+      disabled={currentPlayingTrackIndex === trackQueue?.length - 1}
       onClick={() => setCurrentPlayingTrackIndex(currentPlayingTrackIndex + 1)}
       className={cn(
         "hover:text-accent flex items-center transition-colors",
-        trackQueue.length - 1 === currentPlayingTrackIndex &&
+        trackQueue?.length - 1 === currentPlayingTrackIndex &&
           "pointer-events-none cursor-not-allowed opacity-20 hover:!text-transparent",
         className,
       )}

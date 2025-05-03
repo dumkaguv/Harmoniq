@@ -119,7 +119,7 @@ export const usePlaybar = create<Playbar>((set, get) => ({
       currentPlayingTrackIndex: get().currentPlayingTrackIndex || 0,
       audioSrc: get().audioSrc,
       trackDuration: get().trackDuration,
-      currentVolume: get().currentVolume,
+      currentVolume: get().currentVolume || 1,
       isRepeating: Number(get().isRepeating) || 0,
       isShuffling: Number(get().isShuffling) || 0,
     };
