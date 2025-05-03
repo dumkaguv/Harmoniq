@@ -70,7 +70,7 @@ export const PlaybarProgressBar: FC<Props> = ({ className }) => {
     >
       <div
         aria-label="Seek"
-        className="relative h-0.5 w-[500px] rounded-4xl bg-gray-300"
+        className="relative h-0.5 w-[500px] rounded-4xl bg-gray-300 max-xl:w-[350px] max-lg:w-[280px] max-md:w-[200px] max-sm:w-[170px]"
       >
         <div
           className="bg-accent absolute h-0.5 rounded-4xl"

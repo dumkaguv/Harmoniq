@@ -13,7 +13,7 @@ export const PlaylistCardAuthor: FC<Props> = ({
   className,
 }) => {
   return (
-    <p className={cn("text-sm text-neutral-500", className)}>
+    <p className={cn("text-sm text-neutral-500 max-xl:text-sm", className)}>
       {author}
       {endAdornment}
     </p>

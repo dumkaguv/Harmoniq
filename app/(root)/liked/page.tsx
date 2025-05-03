@@ -5,6 +5,8 @@ import { useLikedTracksStore } from "@/shared/store/likedTracks";
 import Head from "next/head";
 import { useShallow } from "zustand/shallow";
 
+export const dynamic = "force-dynamic";
+
 export default function LikedTracksPage() {
   const [isLoading, likedTracks] = useLikedTracksStore(
     useShallow((state) => [state.isLoading, state.likedTracks]),

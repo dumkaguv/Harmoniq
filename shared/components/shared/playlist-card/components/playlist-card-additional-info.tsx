@@ -9,21 +9,21 @@ interface Props {
 export const PlaylistCardAdditionalInfo: FC<Props> = ({ playlist }) => {
   return (
     <>
-      <div className="mt-5 flex items-center gap-2">
+      <div className="mt-5 flex items-center gap-2 max-xl:text-sm max-md:mt-2">
         <AudioLines size={24} />
         <span className="text-neutral-600">
           Playlist track count:{" "}
           <span className="font-semibold">{playlist.track_count}</span>
         </span>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 max-xl:text-sm">
         <Play size={24} />
         <span className="text-neutral-600">
           Total play count:{" "}
           <span className="font-semibold">{playlist.total_play_count}</span>
         </span>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 max-xl:text-sm">
         <Heart size={24} />
         <span className="text-neutral-600">
           Favorite count:{" "}

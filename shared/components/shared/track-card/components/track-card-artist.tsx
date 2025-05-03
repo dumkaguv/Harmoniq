@@ -5,7 +5,7 @@ import Link from "next/link";
 interface Props {
   name: string;
   href: string;
-  onClick?: (event: MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  onClick?: (event: React.MouseEvent) => void;
   className?: string;
 }
 
@@ -20,7 +20,7 @@ export const TrackCardArtist: FC<Props> = ({
       href={href}
       onClick={onClick}
       className={cn(
-        "hover:text-accent font-semibold text-neutral-500",
+        "hover:text-accent font-semibold text-neutral-500 max-xl:text-sm",
         className,
       )}
     >

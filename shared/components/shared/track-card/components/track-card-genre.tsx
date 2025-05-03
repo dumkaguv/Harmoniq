@@ -11,7 +11,7 @@ export const TrackCardGenre: FC<Props> = ({ genre, onClick, className }) => {
   return (
     <p
       onClick={onClick}
-      className={cn("font-semibold text-neutral-500", className)}
+      className={cn("font-semibold text-neutral-500 max-xl:text-sm", className)}
     >
       {genre}
     </p>

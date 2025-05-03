@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Harmoniq | Main",
+  title: "Harmoniq",
 };
 
 export default function HomeLayout({
@@ -22,10 +22,10 @@ export default function HomeLayout({
       style={{ paddingBottom: "var(--playbar-height)" }}
     >
       <Container>
-        <div className="flex">
-          <Sidebar className="min-w-1/6" />
+        <div className="md:flex">
+          <Sidebar className="md:min-w-1/6" />
 
-          <div className="ml-15 w-[80%] overflow-x-hidden pt-6 pb-8">
+          <div className="pt-6 pb-8 max-2xl:ml-10 max-xl:py-5 max-md:ml-0 max-md:p-2 md:ml-15 md:w-[80%] md:overflow-x-hidden">
             <Header />
             {children}
           </div>

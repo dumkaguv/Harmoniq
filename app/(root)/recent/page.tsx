@@ -5,6 +5,8 @@ import { useRecentTracksStore } from "@/shared/store/recentTracks";
 import Head from "next/head";
 import { useShallow } from "zustand/shallow";
 
+export const dynamic = "force-dynamic";
+
 export default function RecentTracksPage() {
   const [isLoading, recentTracks] = useRecentTracksStore(
     useShallow((state) => [state.isLoading, state.recentTracks]),
@@ -18,7 +20,7 @@ export default function RecentTracksPage() {
 
       <div className="mt-10">
         <h1 className="text-5xl font-semibold text-neutral-600">
-          My Recent tracks
+          Recent tracks
         </h1>
 
         <TrackList

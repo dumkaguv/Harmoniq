@@ -82,7 +82,7 @@ export const TracksTable: FC<Props> = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-[auto_max-content_1fr__auto_auto_auto] items-center gap-6",
+        "grid grid-cols-[auto_max-content_1fr__auto_auto_auto] items-center gap-6 overflow-x-auto",
         className,
       )}
     >
@@ -145,7 +145,7 @@ export const TracksTable: FC<Props> = ({
               />
               <div>
                 <TrackCard.Title
-                  className={`hover:text-accent transition-colors duration-200 ${playingTrack?.id === track.id && "text-accent"}`}
+                  className={`hover:text-accent transition-colors duration-200 max-xl:max-w-[250px] max-xl:truncate max-lg:max-w-[180px] ${playingTrack?.id === track.id && "text-accent"}`}
                   title={track.title}
                 />
                 <TrackCard.Artist

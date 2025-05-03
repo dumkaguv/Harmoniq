@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: "Harmoniq | Tracks",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function TracksPage() {
   const tracks = await Api.tracks.fetchTracks("trending", "time=allTime");
 

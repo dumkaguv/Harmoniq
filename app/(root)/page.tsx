@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <PlaylistsSlider />
 
-      <div className="mt-8 flex gap-10">
+      <div className="mt-8 flex gap-10 max-2xl:gap-6 max-xl:flex-col-reverse">
         <TopPlaylists />
         <TopTracks />
       </div>

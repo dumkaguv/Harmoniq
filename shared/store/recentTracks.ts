@@ -17,7 +17,7 @@ export const useRecentTracksStore = create<RecentTracksState>((set, get) => ({
 
   addTrackToRecent: (trackId, track) => {
     if (!get().recentTracksIdsSet.has(trackId)) {
-      const updated = [...get().recentTracks, track];
+      const updated = [track, ...get().recentTracks];
       localStorage.setItem("recentTracks", JSON.stringify(updated));
       set({ recentTracks: updated });
       set({ recentTracksIdsSet: new Set(updated.map((track) => track.id)) });

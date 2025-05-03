@@ -38,7 +38,7 @@ export const SidebarLibrary: FC<Props> = ({ activeLinkStyles, className }) => {
   const pathname = usePathname();
 
   return (
-    <div className={cn("mt-5 p-4", className)}>
+    <div className={cn("mt-5 p-4 max-lg:mt-3", className)}>
       <h3 className="font-semibold text-neutral-600">Your Library</h3>
       <ul className="mt-4 flex flex-col gap-5 pl-3">
         {LIBRARY_MENU.map((item) => (

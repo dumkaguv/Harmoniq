@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useRef } from "react";
+import React, { FC, useMemo, useRef } from "react";
 import { cn, getShuffledArray } from "@/shared/lib";
 import { useShallow } from "zustand/shallow";
 import * as PlaylistCard from "@/shared/components/shared/playlist-card";
@@ -33,16 +33,20 @@ export const PlaylistsSlider: FC<Props> = ({
 
   const shuffledPlaylists = getShuffledArray(playlists).slice(0, 10);
 
-  const skeletons = new Array(10).fill(0).map((_, index) => (
-    <li key={index} className="flex flex-col">
-      <PlaylistCard.Skeleton />
-    </li>
-  ));
+  const skeletons = useMemo(
+    () =>
+      new Array(10).fill(0).map((_, index) => (
+        <li key={index} className="flex flex-col">
+          <PlaylistCard.Skeleton classNameImage="max-lg:!w-[150px] max-lg:!h-[150px]" />
+        </li>
+      )),
+    [],
+  );
 
   return (
-    <div className={cn("mt-10 text-4xl font-semibold", className)}>
+    <div className={cn("mt-10 text-4xl font-semibold max-xl:mt-7", className)}>
       <div className="flex items-center gap-2">
-        <h2>{title}</h2>
+        <h2 className="max-sm:text-3xl">{title}</h2>
         <div className="flex items-center">
           <button
             className="group"
@@ -53,7 +57,7 @@ export const PlaylistsSlider: FC<Props> = ({
           >
             <ChevronLeft
               size={48}
-              className="group-hover:text-accent text-gray-500 transition-colors duration-200"
+              className="group-hover:text-accent text-gray-500 transition-colors duration-200 max-sm:w-[32px]"
             />
           </button>
 
@@ -66,14 +70,14 @@ export const PlaylistsSlider: FC<Props> = ({
           >
             <ChevronRight
               size={48}
-              className="group-hover:text-accent text-gray-500 transition-colors duration-200"
+              className="group-hover:text-accent text-gray-500 transition-colors duration-200 max-sm:w-[32px]"
             />
           </button>
         </div>
       </div>
       <ul
         ref={sliderListRef}
-        className="scrollbar-hide mt-5 flex gap-7 overflow-x-scroll overflow-y-hidden p-1"
+        className="scrollbar-hide mt-5 flex max-w-full gap-7 overflow-x-scroll overflow-y-hidden p-1 max-xl:gap-5 max-md:w-full"
       >
         {!isLoading &&
           playlists.length > 0 &&
@@ -82,11 +86,14 @@ export const PlaylistsSlider: FC<Props> = ({
               <Link
                 href={`/playlist/${playlist.id}`}
                 className={cn(
-                  "flex w-[190px] flex-col gap-3 hover:scale-[1.025] hover:text-black",
+                  "flex w-[190px] flex-col gap-3 hover:scale-[1.025] hover:text-black max-lg:w-[150px]",
                   className,
                 )}
               >
-                <PlaylistCard.Image imageSrc={playlist.artwork["480x480"]} />
+                <PlaylistCard.Image
+                  imageSrc={playlist.artwork["480x480"]}
+                  className="max-lg:!h-[150px] max-lg:!w-[150px]"
+                />
                 <div>
                   <PlaylistCard.Title
                     title={playlist.playlist_name}

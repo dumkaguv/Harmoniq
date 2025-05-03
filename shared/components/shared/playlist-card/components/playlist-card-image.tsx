@@ -19,10 +19,8 @@ export const PlaylistCardImage: FC<Props> = ({
   return (
     <img
       src={imageSrc}
-      className={cn(
-        `h-[${height}px] w-[${width}px] shrink-0 rounded-sm shadow-md`,
-        className,
-      )}
+      className={cn(`shrink-0 rounded-sm shadow-md`, className)}
+      style={{ width: width, height: height }}
       alt={alt}
       width={width}
       height={height}

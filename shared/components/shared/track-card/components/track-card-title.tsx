@@ -7,5 +7,5 @@ interface Props extends HTMLAttributes<HTMLParagraphElement> {
 }
 
 export const TrackCardTitle: FC<Props> = ({ title, className }) => {
-  return <p className={cn("font-semibold", className)}>{title}</p>;
+  return <p className={cn("font-semibold max-xl:text-sm", className)}>{title}</p>;
 };

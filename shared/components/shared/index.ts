@@ -13,4 +13,5 @@ export { TracksTable } from "./tracks-table";
 export * from "./header";
 export * from "./sidebar";
 export * from "./playbar";
+export * from "./playbar/playbar-buttons";
 export * from "./playlist-page";

@@ -23,7 +23,7 @@ export const TopTracks: FC<Props> = ({ className }) => {
     .map((_, index) => <TopTrackSkeleton key={index} />);
 
   return (
-    <div className={cn("flex-1", className)}>
+    <div className={cn("flex-1 md:mr-2", className)}>
       <h3 className="text-2xl font-semibold text-black">
         Top Of The Week Hits
       </h3>
@@ -54,7 +54,7 @@ export const TopTracks: FC<Props> = ({ className }) => {
                 </td>
                 <td
                   onClick={() => setTrack(track, tracks.slice(0, 7))}
-                  className={`hover:text-accent max-w-[250px] cursor-pointer truncate pr-12 duration-200 ${playingTrack?.id === track.id && "text-accent"}`}
+                  className={`hover:text-accent max-w-[250px] cursor-pointer truncate pr-12 duration-200 max-sm:max-w-[210px] ${playingTrack?.id === track.id && "text-accent"}`}
                   title="Play track"
                 >
                   <TrackCard.Title title={track.title} className="truncate" />

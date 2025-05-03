@@ -75,7 +75,7 @@ export const PlaybarButtonVolume: FC<Props> = ({ size = 24, className }) => {
       >
         {handleVolumeIcon()}
       </button>
-      <div className="relative flex h-full items-center">
+      <div className="relative flex h-full items-center max-xl:w-[100px] max-lg:w-[70px] max-md:hidden">
         <input
           type="range"
           min={0}

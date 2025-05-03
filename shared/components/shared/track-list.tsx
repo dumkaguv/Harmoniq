@@ -29,11 +29,16 @@ export const TrackList: FC<Props> = ({ tracks, isLoading, className }) => {
   );
 
   return (
-    <ul className={cn("grid grid-cols-4 gap-x-5 gap-y-10 pr-5", className)}>
+    <ul
+      className={cn(
+        "grid grid-cols-3 gap-x-5 gap-y-10 max-xl:grid-cols-2 max-sm:grid-cols-1 sm:pr-5 2xl:grid-cols-4",
+        className,
+      )}
+    >
       {tracks.map((track) => (
         <li
           key={track.id}
-          className="flex w-full cursor-pointer flex-col gap-1 p-1 transition-transform duration-200 hover:scale-[1.015]"
+          className="flex cursor-pointer flex-col gap-1 p-1 transition-transform duration-200 hover:scale-[1.015]"
           onClick={() => setTrack(track, tracks)}
           title="Play track"
         >
@@ -71,7 +76,7 @@ export const TrackList: FC<Props> = ({ tracks, isLoading, className }) => {
           />
         </li>
       ))}
-      <li className="col-span-4 mt-10">
+      <li className="col-span-full mt-10">
         {isLoading && emptyLoader}
         {!isLoading && tracks.length === 0 && emptyMessage}
       </li>

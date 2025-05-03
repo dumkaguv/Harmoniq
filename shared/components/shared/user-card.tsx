@@ -5,6 +5,7 @@ import { Track, User } from "@/types/audius";
 import {
   AudioLines,
   BookImage,
+  CircleUserRound,
   ExternalLink,
   User as UserIcon,
 } from "lucide-react";
@@ -49,7 +50,7 @@ export const UserCard: FC<Props> = ({ user, className }) => {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {  
+      (entries) => {
         if (entries[0].isIntersecting && !isLoading) {
           setOffset((prev) => prev + LIMIT);
         }
@@ -68,23 +69,32 @@ export const UserCard: FC<Props> = ({ user, className }) => {
     <div className={className}>
       <img
         src={user.cover_photo["640x"]}
-        className="mr-5 max-h-[300px] w-full rounded-l-md object-cover"
+        className="mr-5 max-h-[300px] w-full rounded-l-md object-cover max-md:h-[180px]"
         width={1370}
         height={300}
         alt=""
       />
-      <div className="flex gap-x-5">
+      <div className="flex gap-x-5 max-sm:flex-col max-md:text-sm">
         <img
           src={user.profile_picture["480x480"]}
-          className="border-accent relative -top-12 h-[250px] w-[250px] rounded-full border-2"
+          className="border-accent relative -top-12 h-[250px] w-[250px] rounded-full border-2 max-lg:h-[180px] max-lg:w-[180px] max-md:-top-20"
           width={250}
           height={250}
-          alt={"profile picture"}
+          alt="profile picture"
         />
-        <div className="flex flex-col gap-1">
-          <h1 className="text-accent text-7xl font-bold">{user.name}</h1>
-          <div className="pr-5">
-            <span>Bio: {user.bio}</span>
+        <div className="-mt-15 flex flex-col gap-1 pr-2">
+          <h1 className="text-accent text-7xl font-bold max-md:text-3xl">
+            {user.name}
+          </h1>
+          <div>
+            <div className="mt-2 flex gap-1">
+              <CircleUserRound
+                className="!min-h-[24px] !min-w-[24px]"
+                size={24}
+              />
+              <span>Bio</span>:{" "}
+              <span className="font-semibold break-all">{user.bio}</span>
+            </div>
             <div className="mt-2 flex gap-1">
               <AudioLines size={24} />
               <span>Tracks count</span>:{" "}

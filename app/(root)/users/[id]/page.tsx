@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: "Harmoniq | Users",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function TracksPage({
   params,
 }: {

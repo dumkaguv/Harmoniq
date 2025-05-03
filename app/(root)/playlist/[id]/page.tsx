@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   title: "Harmoniq | Playlist",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function PlaylistPage({
   params,
 }: {
@@ -18,7 +20,7 @@ export default async function PlaylistPage({
   const { id: playlistId } = await params;
   const playlist = (await Api.playlists.fetchPlaylist(
     playlistId,
-  )) as never as Playlist;
+  )) as unknown as Playlist;
 
   return (
     <div className="mt-10 pr-5">

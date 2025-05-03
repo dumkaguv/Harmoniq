@@ -29,14 +29,17 @@ export const SidebarPlaylists: FC<Props> = ({
   }, [fetchPlaylists]);
 
   return (
-    <div className={cn("p-4", className)}>
+    <div className={cn("min-w-full p-4", className)}>
       <h3 className="font-semibold text-neutral-600">Playlists</h3>
-      <ul className="mt-3 grid gap-3">
+      <ul className="mt-3 grid gap-3 max-lg:gap-2">
         {isLoading && !playlists.length
           ? new Array(12)
               .fill(0)
               .map((_, index) => (
-                <Skeleton key={index} className="h-6 w-[220px]" />
+                <Skeleton
+                  key={index}
+                  className="h-6 w-[220px] max-xl:w-[200px] mr-15"
+                />
               ))
           : playlists.map((playlist) => (
               <li
