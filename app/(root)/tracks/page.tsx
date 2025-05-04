@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function TracksPage() {
-  const tracks = await Api.tracks.fetchTracks("trending");
+  const tracks = await Api.tracks.fetchTracks("trending", "time=year");
 
   return (
     <div className="mt-10">
