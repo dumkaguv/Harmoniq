@@ -67,34 +67,40 @@ export const UserCard: FC<Props> = ({ user, className }) => {
 
   return (
     <div className={className}>
-      <img
-        src={user.cover_photo["640x"]}
-        className="mr-5 max-h-[300px] w-full rounded-l-md object-cover max-md:h-[180px]"
-        width={1370}
-        height={300}
-        alt=""
-      />
-      <div className="flex gap-x-5 max-sm:flex-col max-md:text-sm">
+      {user.cover_photo?.["640x"] && (
+        <img
+          src={user.cover_photo["640x"]}
+          className="mr-5 max-h-[300px] w-full rounded-l-md object-cover max-md:h-[180px]"
+          width={1370}
+          height={300}
+          alt=""
+        />
+      )}
+
+      <div className="flex gap-x-5 max-md:text-sm max-sm:flex-col">
         <img
           src={user.profile_picture["480x480"]}
-          className="border-accent relative -top-12 h-[250px] w-[250px] rounded-full border-2 max-lg:h-[180px] max-lg:w-[180px] max-md:-top-20"
+          className={`border-accent relative ${user.cover_photo?.["640x"] ? "-top-12" : ""} h-[250px] w-[250px] rounded-full border-2 max-lg:h-[180px] max-lg:w-[180px] max-md:-top-20`}
           width={250}
           height={250}
           alt="profile picture"
         />
-        <div className="-mt-15 flex flex-col gap-1 pr-2">
+        <div className="flex flex-col gap-1 pr-2">
           <h1 className="text-accent text-7xl font-bold max-md:text-3xl">
             {user.name}
           </h1>
           <div>
-            <div className="mt-2 flex gap-1">
-              <CircleUserRound
-                className="!min-h-[24px] !min-w-[24px]"
-                size={24}
-              />
-              <span>Bio</span>:{" "}
-              <span className="font-semibold break-all">{user.bio}</span>
-            </div>
+            {user.bio && (
+              <div className="mt-2 flex gap-1">
+                <CircleUserRound
+                  className="!min-h-[24px] !min-w-[24px]"
+                  size={24}
+                />
+                <span>Bio</span>:{" "}
+                <span className="font-semibold break-all">{user.bio}</span>
+              </div>
+            )}
+
             <div className="mt-2 flex gap-1">
               <AudioLines size={24} />
               <span>Tracks count</span>:{" "}
@@ -126,7 +132,7 @@ export const UserCard: FC<Props> = ({ user, className }) => {
           </div>
         </div>
       </div>
-      <div className="relative">
+      <div className="relative mt-5">
         <TracksTable
           tracks={userTracks}
           trackCount={user.track_count}

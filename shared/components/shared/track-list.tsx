@@ -16,8 +16,8 @@ interface Props {
 }
 
 export const TrackList: FC<Props> = ({ tracks, isLoading, className }) => {
-  const [playingTrack, setTrack] = usePlaybar(
-    useShallow((state) => [state.track, state.setTrack]),
+  const [playingTrack, audioRef, setTrack] = usePlaybar(
+    useShallow((state) => [state.track, state.audioRef, state.setTrack]),
   );
 
   const emptyLoader = (
@@ -70,7 +70,9 @@ export const TrackList: FC<Props> = ({ tracks, isLoading, className }) => {
             <TrackCard.Genre genre={track.genre} />
           </span>
           <TrackCard.AdditionalInfo
-            trackDuration={track.duration}
+            trackDuration={
+              track.duration || Math.floor(Number(audioRef?.current?.duration))
+            }
             playCount={track.play_count}
             favoriteCount={track.favorite_count}
           />
