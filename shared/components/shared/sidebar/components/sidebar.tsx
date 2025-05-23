@@ -26,7 +26,7 @@ export const Sidebar: FC<Props> = ({ className }) => {
     <>
       <aside
         className={cn(
-          "bg-gray-custom sticky top-0 z-[100] max-h-[calc(100dvh-var(--playbar-height))] overflow-y-auto transition-normal duration-200 max-lg:text-sm max-md:fixed max-md:w-0",
+          "bg-gray-custom sticky top-0 z-[100] max-h-[calc(100dvh-var(--playbar-height))] max-w-[300px] overflow-y-auto transition-normal duration-200 max-lg:text-sm max-md:fixed max-md:w-0",
           { "!w-[245px]": isOpen },
           className,
         )}

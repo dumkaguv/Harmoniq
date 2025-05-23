@@ -80,13 +80,15 @@ export const UserCard: FC<Props> = ({ user, className }) => {
       <div className="flex gap-x-5 max-md:text-sm max-sm:flex-col">
         <img
           src={user.profile_picture["480x480"]}
-          className={`border-accent relative ${user.cover_photo?.["640x"] ? "-top-12" : ""} h-[250px] w-[250px] rounded-full border-2 max-lg:h-[180px] max-lg:w-[180px] max-md:-top-20`}
+          className={`border-accent relative ${user.cover_photo?.["640x"] ? "-top-12 max-md:-top-20" : ""} h-[250px] w-[250px] rounded-full border-2 max-lg:h-[180px] max-lg:w-[180px]`}
           width={250}
           height={250}
           alt="profile picture"
         />
-        <div className="flex flex-col gap-1 pr-2">
-          <h1 className="text-accent text-7xl font-bold max-md:text-3xl">
+        <div
+          className={`flex flex-col gap-1 pr-2 ${user.cover_photo?.["640x"] ? "max-md:-mt-15" : ""}`}
+        >
+          <h1 className="text-accent text-7xl font-bold max-lg:text-3xl">
             {user.name}
           </h1>
           <div>
